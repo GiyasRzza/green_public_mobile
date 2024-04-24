@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StoresDetailsPage extends StatefulWidget {
@@ -17,7 +16,7 @@ class _StoresDetailsPageState extends State<StoresDetailsPage> {
         child: Stack(
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(10.0),
                 bottomRight: Radius.circular(10.0),
               ),
@@ -35,7 +34,7 @@ class _StoresDetailsPageState extends State<StoresDetailsPage> {
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(30.0), // Değerini artırarak daha fazla yuvarlaklık elde edebilirsiniz
+                  borderRadius: BorderRadius.circular(30.0),
                 ),
                 height: 100,
               ),
@@ -57,30 +56,33 @@ class _StoresDetailsPageState extends State<StoresDetailsPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 80,
-                              child: Image.asset(
-                                "images/stores.png",
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 80,
+                                child: Image.asset(
+                                  "images/stores.png",
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                           const Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                             children: [
-                               Text("Green Public", style:
-                               TextStyle(color: Colors.black, fontSize: 20)),
-                               Text("Monday - Friday / 9 a.m. - 5 p.m.",
-                                   softWrap: true,overflow: TextOverflow.clip,
-                                   style: TextStyle(color: Colors.black26, fontSize: 15)),
-                             ],
-                           ),
-                            const Text("3.41 km.", style: TextStyle(color: Colors.black, fontSize: 15)),
-                          ],
+                              const SizedBox(
+                                width: 20,
+                              ),
+                             const Column(
+                               crossAxisAlignment: CrossAxisAlignment.start,
+                               children: [
+                                 Text("Green Public", style:
+                                 TextStyle(color: Colors.black, fontSize: 20)),
+                                 Text("Monday - Friday / 9 a.m. - 5 p.m.",
+                                     softWrap: true,overflow: TextOverflow.clip,
+                                     style: TextStyle(color: Colors.black26, fontSize: 15)),
+                               ],
+                             ),
+                              const Text("3.41 km.", style: TextStyle(color: Colors.black, fontSize: 15)),
+                            ],
+                          ),
                         ),
                       ),
                       const Padding(

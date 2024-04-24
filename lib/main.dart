@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'StoresDetailsPage.dart';
-import 'TreeDetailsPage.dart';
+import 'page/StoresDetailsPage.dart';
+import 'page/TreeDetailsPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -457,79 +457,82 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: Colors.white12.withOpacity(0.8),
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8.0),
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  "images/tree.png",
-                                  fit:  BoxFit.cover,
-                                  width: 180,
-                                  height: 180,
-                                ),
-                                 Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(height: 16.0),
-                                      const Align( child: Text("Oak Tree",style: TextStyle(color: Colors.black,fontSize: 20),)),
-                                      const SizedBox(height: 16.0),
-                                      const SizedBox(
-                                        width: 175,
-                                        child: Text(
-                                          "Lorem ipsum dolor sit consectetur adipiscing elit..",
-                                          overflow: TextOverflow.visible,
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(
-                                              "images/frame1.png",
-                                              fit:  BoxFit.cover,
-                                              width: 25,
-                                              height: 25,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 16.0),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(
-                                              "images/Light.png",
-                                              fit:  BoxFit.cover,
-                                              width: 25,
-                                              height: 25,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 16.0),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(
-                                              "images/frame2.png",
-                                              fit:  BoxFit.cover,
-                                              width: 25,
-                                              height: 25,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 16.0),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(
-                                              "images/snow.png",
-                                              fit:  BoxFit.cover,
-                                              width: 25,
-                                              height: 25,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    "images/tree.png",
+                                    fit:  BoxFit.cover,
+                                    width: 180,
+                                    height: 180,
                                   ),
-                                )
-                              ],
+                                   Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(height: 16.0),
+                                        const Align( child: Text("Oak Tree",style: TextStyle(color: Colors.black,fontSize: 20),)),
+                                        const SizedBox(height: 16.0),
+                                        const SizedBox(
+                                          width: 175,
+                                          child: Text(
+                                            "Lorem ipsum dolor sit consectetur adipiscing elit..",
+                                            overflow: TextOverflow.visible,
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Image.asset(
+                                                "images/frame1.png",
+                                                fit:  BoxFit.cover,
+                                                width: 25,
+                                                height: 25,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 16.0),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Image.asset(
+                                                "images/Light.png",
+                                                fit:  BoxFit.cover,
+                                                width: 25,
+                                                height: 25,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 16.0),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Image.asset(
+                                                "images/frame2.png",
+                                                fit:  BoxFit.cover,
+                                                width: 25,
+                                                height: 25,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 16.0),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Image.asset(
+                                                "images/snow.png",
+                                                fit:  BoxFit.cover,
+                                                width: 25,
+                                                height: 25,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
