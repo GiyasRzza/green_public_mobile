@@ -9,7 +9,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,6 +31,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int currentPageIndex = 0;
+
 
   @override
   Widget build(BuildContext context) {
@@ -136,6 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
+
                   children: [
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:green_public_mobile/apis/settings/ServerSideConnection.dart';
 import 'package:http/http.dart' as http;
 
-class StoreApis{
-  static  Future<void> getStores()  async {
-    String url = "${ServerSideConnection.connectionUrl}/stores";
+class TreeApis{
+  static  Future<void> getTrees()  async {
+    String url = "${ServerSideConnection.connectionUrl}/trees?populate=*";
     Map<String, String> headers = {"Content-Type": "application/json",'Accept-Charset': 'utf-8',};
     http.Response response = await http.get(Uri.parse(url),
       headers: headers,);
