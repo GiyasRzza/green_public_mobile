@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'page/StoresDetailsPage.dart';
 import 'page/TreeDetailsPage.dart';
@@ -8,6 +11,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
@@ -31,6 +35,22 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int currentPageIndex = 0;
+  Future<void> getCurrentLocation() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+    if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
+      var location = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      setState(() {
+        print(location.longitude);
+        print(location.latitude);
+      });
+    } else {
+      print("User denied permission to access device location.");
+    }
+  }
 
 
   @override
@@ -94,11 +114,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    const Row(
+                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Stores", style: TextStyle(color: Colors.black26, fontSize: 15),),
-                        Text("See all", style: TextStyle(color: Colors.black26, fontSize: 15),),
+                        InkWell(
+                            onTap: () {
+                              getCurrentLocation();
+                            },
+                            child: const Text("Stores", style: TextStyle(color: Colors.black26, fontSize: 15),)
+
+                        ),
+                        const Text("See all", style: TextStyle(color: Colors.black26, fontSize: 15),),
                       ],
                     ),
                     Padding(
