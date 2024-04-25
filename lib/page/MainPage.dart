@@ -35,61 +35,67 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: PreferredSize(preferredSize: const Size.fromHeight(400), child: Stack(
-        children: <Widget>[
-          Image.asset("images/homePageBg.png",width: double.infinity,fit: BoxFit.fitWidth,),
-          Padding(
-            padding: const EdgeInsets.only(top: 85.0, left: 10),
-            child: Opacity(
-              opacity: 0.65,
-              child: Container(
-                width: 100, // İstenilen genişlik
-                height: 100, // İstenilen yükseklik
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.5), // Arka plan rengini ayarlayın
-                  borderRadius: BorderRadius.circular(10.0), // Köşeleri yuvarlayın
+      appBar: PreferredSize(preferredSize: const Size.fromHeight(400),
+        child: Stack(
+          children: <Widget>[
+            Image.asset("images/homePageBg.png", width: double.infinity, fit: BoxFit.fitWidth),
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 50.0, left: 20, right: 20),
+                child: Opacity(
+                  opacity: 0.65,
+                  child: Container(
+                    width: double.infinity,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.6),
+                      borderRadius: BorderRadius.circular(20.0),
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 65.0,left: 10),
-                child: SizedBox(
-                    child: Image.asset("images/welcome.png",)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 65.0, left: 10),
+                  child: SizedBox(child: Image.asset("images/welcome.png")),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: SizedBox(child: Image.asset("images/text.png",)),
-              ),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      _storesBottomSheet(context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 190,left: 30.0),
-                      child: SizedBox(child: Image.asset("images/Link.png",)),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: SizedBox(child: Image.asset("images/text.png")),
+                ),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        _storesBottomSheet(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 190, left: 30.0),
+                        child: SizedBox(child: Image.asset("images/Link.png")),
+                      ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _advicesBottomSheet(context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 190,left: 7),
-                      child: SizedBox(child: Image.asset("images/Link2.png",)),
+                    InkWell(
+                      onTap: () {
+                        _advicesBottomSheet(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 190, left: 7),
+                        child: SizedBox(child: Image.asset("images/Link2.png")),
+                      ),
                     ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ],
+                  ],
+                ),
+              ],
+            ),
+          ],
       ),),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -106,7 +112,7 @@ class _MainPageState extends State<MainPage> {
                         InkWell(
                             onTap: () {
                               // TreeApis.getTrees();
-                              // getCurrentLocation();
+                              getCurrentLocation();
                             },
                             child: const Text("Stores", style: TextStyle(color: Colors.black26, fontSize: 15),)
 

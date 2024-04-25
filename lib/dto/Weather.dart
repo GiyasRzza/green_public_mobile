@@ -1,3 +1,5 @@
+import 'WeatherData.dart';
+
 class Weather {
   final int id;
   final String greeting;
@@ -5,6 +7,7 @@ class Weather {
   final String updatedAt;
   final String publishedAt;
   final String locale;
+  final WeatherData weatherData;
 
   Weather({
     required this.id,
@@ -13,6 +16,7 @@ class Weather {
     required this.updatedAt,
     required this.publishedAt,
     required this.locale,
+    required this.weatherData
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) {
@@ -24,6 +28,7 @@ class Weather {
       updatedAt: json['weather']['updatedAt'] ?? 'Unknown',
       publishedAt: json['weather']['publishedAt'] ?? 'Unknown',
       locale: json['weather']['locale'] ?? 'en',
+      weatherData: weatherData
     );
   }
 }
