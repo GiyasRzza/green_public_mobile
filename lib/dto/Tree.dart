@@ -76,6 +76,33 @@ class Tree {
       videoUrl: videoData.containsKey('attributes') ? videoData['attributes']['url'] ?? '' : '',
     );
   }
+  // final attributes = json['attributes'] ?? {};
+  // final pictureData = attributes['picture']['data'] ?? {};
+  // final videoData = attributes['video']['data'] ?? {};
 
+  // double price;
+  // try {
+  // price = attributes['price']?.toDouble() ?? 0.0;
+  // } catch (e) {
+  // price = 0.0;
+  // }
+  //
+  //
+  // String smallImageUrl = '';
+  // if (pictureData.containsKey('attributes')) {
+  // var pictureAttributes = pictureData['attributes'];
+  //
+  // if (pictureAttributes.containsKey('formats')) {
+  // var formats = pictureAttributes['formats'];
+  //
+  // if (formats.containsKey('small')) {
+  // var small = formats['small'];
+  //
+  // if (small.containsKey('url')) {
+  // smallImageUrl = small['url'];
+  // }
+  // }
+  // }
+  // }
 
 }

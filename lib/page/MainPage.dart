@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 
-import '../apis/TreeApis.dart';
+import '../dto/TreeImage.dart';
+import '../provider/TreeProvider.dart';
 import 'StoresDetailsPage.dart';
 import 'TreeDetailsPage.dart';
 
@@ -40,7 +42,14 @@ class _MainPageState extends State<MainPage> {
             padding: const EdgeInsets.only(top: 85.0, left: 10),
             child: Opacity(
               opacity: 0.65,
-              child: Image.asset("images/weather.png"),
+              child: Container(
+                width: 100, // İstenilen genişlik
+                height: 100, // İstenilen yükseklik
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.5), // Arka plan rengini ayarlayın
+                  borderRadius: BorderRadius.circular(10.0), // Köşeleri yuvarlayın
+                ),
+              ),
             ),
           ),
           Column(
@@ -96,7 +105,7 @@ class _MainPageState extends State<MainPage> {
                       children: [
                         InkWell(
                             onTap: () {
-                              TreeApis.getTrees();
+                              // TreeApis.getTrees();
                               // getCurrentLocation();
                             },
                             child: const Text("Stores", style: TextStyle(color: Colors.black26, fontSize: 15),)
@@ -149,53 +158,97 @@ class _MainPageState extends State<MainPage> {
                         Text("See all", style: TextStyle(color: Colors.black26, fontSize: 15),)
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12.0),
-                      child: InkWell(
-                        onTap:() {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const TreeDetailsPage(),));
+                Padding(
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const TreeDetailsPage(),));
+                    },
+                    child: SizedBox(
+                      height: 200,
+                      child: FutureBuilder<List<TreeImage>>(
+                        future: Provider.of<TreeProvider>(context, listen: false).treeImageFutureList,
+                        builder: (BuildContext context, AsyncSnapshot<List<TreeImage>> snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(child: Text('Err: ${snapshot.error}'));
+                          } else if (snapshot.hasData) {
+                            List<TreeImage> treeImages = snapshot.data!;
+                            return GridView.builder(
+                              scrollDirection: Axis.horizontal,
+                              reverse: true,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 1,
+                                mainAxisSpacing: 10.0,
+                              ),
+                              itemCount: treeImages.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                TreeImage treeImage = treeImages[index];
+                                return SizedBox(
+                                  height: 250,
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                    ),
+                                    color: Colors.white12.withOpacity(0.8),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            width: 200,
+                                            height: 100,
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(20.0),
+                                              child: Image(
+                                                image: treeImage.treeImage.image,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ),
 
-                        },
-                        child: SizedBox(
-                          height: 200,
-                          child: GridView.builder(
-                            scrollDirection: Axis.horizontal,
-                            reverse: true,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 1,
-                              mainAxisSpacing: 10.0,
-                            ),
-                            itemCount: 4,
-                            itemBuilder: (BuildContext context, int index) {
-                              return SizedBox(
-                                height: 250,
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12.0),
-
-                                  ),
-                                  color: Colors.white12.withOpacity(0.8),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: [
-                                        Image.asset(
-                                          "images/tree.png",
-                                        ),
-                                        const Align( alignment: Alignment.centerLeft ,child: Text("Oak Tree",style: TextStyle(color: Colors.black,fontSize: 20),)),
-                                        const Expanded(child: Text("Lorem ipsum dolor sit consectetur adipiscing elit.",style:
-                                        TextStyle(color: Colors.black),softWrap: true,overflow:TextOverflow.visible )),
-                                      ],
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              treeImage.treeName,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 17,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Tooltip(
+                                              message: treeImage.description,
+                                              child: Text(
+                                                treeImage.description,
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                ),
+                                                softWrap: true,
+                                                overflow: TextOverflow.visible,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                                );
+                              },
+                            );
+                          } else {
+                            return const Center(child: Text('Data Empty'));
+                          }
+                        },
                       ),
                     ),
-                  ],
+                  ),
+                ),
+
+                ],
                 ),
               ),
               Padding(
@@ -222,7 +275,7 @@ class _MainPageState extends State<MainPage> {
                           itemCount: 4,
                           itemBuilder: (BuildContext context, int index) {
                             return ClipRRect(
-                              // borderRadius: BorderRadius.circular(30.0),
+                              borderRadius: BorderRadius.circular(30.0),
                               clipBehavior: Clip.hardEdge,
                               child: Image.asset(
                                 "images/video.png",
