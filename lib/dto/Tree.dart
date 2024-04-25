@@ -46,12 +46,20 @@ class Tree {
     final pictureData = attributes['picture']['data'] ?? {};
     final videoData = attributes['video']['data'] ?? {};
 
+
+    double price;
+    try {
+      price = attributes['price']?.toDouble() ?? 0.0;
+    } catch (e) {
+      price = 0.0;
+    }
+
     return Tree(
       id: json['id'] ?? 0,
       name: attributes['name'] ?? 'Unknown',
       insertedDate: attributes['inserted_date'] ?? 'Unknown',
       updatedDate: attributes['updated_date'] ?? 'Unknown',
-      price: attributes['price'] ?? 0.0,
+      price: price,
       description: attributes['description'] ?? 'No description available',
       watering: attributes['watering'] ?? 'Unknown',
       depth: attributes['depth'] ?? 'Unknown',
@@ -68,5 +76,6 @@ class Tree {
       videoUrl: videoData.containsKey('attributes') ? videoData['attributes']['url'] ?? '' : '',
     );
   }
+
 
 }
