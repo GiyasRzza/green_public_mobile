@@ -16,11 +16,6 @@ class TreeApis {
       final Map<String, dynamic> jsonResponse = json.decode(responseBody);
       final List<dynamic> treeData = jsonResponse['data'] ?? jsonResponse['results'];
       List<Tree> trees = treeData.map((data) => Tree.fromJson(data)).toList();
-      for (var tree in trees) {
-        print('Tree name: ${tree.name}');
-        print('Tree name: ${tree.price}');
-        print('Tree name: ${tree.pictureUrl}');
-      }
       return trees;
     } else {
       print("Error Post From Flutter: ${response.statusCode}, ${response.reasonPhrase}");

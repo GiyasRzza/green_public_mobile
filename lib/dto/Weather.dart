@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'WeatherData.dart';
 
 class Weather {
@@ -19,8 +21,15 @@ class Weather {
     required this.weatherData
   });
 
-  factory Weather.fromJson(Map<String, dynamic> json) {
-    final weatherData = json['weatherData'] ?? {};
+  factory Weather.fromJson(String jsonString) {
+    final Map<String, dynamic> json = jsonDecode(jsonString);
+
+    // Extract weatherData map from JSON
+    final Map<String, dynamic> weatherDataMap = json['weatherData'] ?? {};
+
+    // Convert the weatherData map to a WeatherData object
+    final WeatherData weatherData = WeatherData.fromJson(weatherDataMap);
+
     return Weather(
       id: json['weather']['id'] ?? 0,
       greeting: json['weather']['greeting'] ?? 'Hello!',
@@ -28,7 +37,7 @@ class Weather {
       updatedAt: json['weather']['updatedAt'] ?? 'Unknown',
       publishedAt: json['weather']['publishedAt'] ?? 'Unknown',
       locale: json['weather']['locale'] ?? 'en',
-      weatherData: weatherData
+      weatherData: weatherData,
     );
   }
 }

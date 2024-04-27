@@ -1,6 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:green_public_mobile/page/MainPage.dart';
+import 'package:green_public_mobile/provider/StoreProvider.dart';
 import 'package:green_public_mobile/provider/TreeProvider.dart';
+import 'package:green_public_mobile/provider/WeatherProvider.dart';
+
 import 'package:provider/provider.dart';
 
 void main() {
@@ -14,8 +19,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => WeatherProvider()),
         ChangeNotifierProvider(create: (_) => TreeProvider()),
-
+        ChangeNotifierProvider(create: (_) =>StoreProvider()),
       ],
       child: MaterialApp(
         title: 'Green Public',
@@ -38,11 +44,31 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-
-
+@override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 5), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainPage()),
+      );
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    return  const MainPage();
+    return  Scaffold(
+      backgroundColor: Colors.lightGreen[100]?.withOpacity(0.9999),
+      body: Stack(
+        children: [
+          Image.asset(
+            'images/oneTwoLoader.gif',
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+          ),
+
+        ],
+      ),
+    );
   }
 
 

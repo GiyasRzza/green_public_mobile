@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:flutter/widgets.dart';
+import 'package:green_public_mobile/dto/StoreImage.dart';
+import 'package:green_public_mobile/provider/StoreProvider.dart';
+import 'package:green_public_mobile/provider/WeatherProvider.dart';
+import 'package:green_public_mobile/widget/CustomClipPath.dart';
 import 'package:provider/provider.dart';
 
 import '../dto/TreeImage.dart';
@@ -16,87 +21,167 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int currentPageIndex = 0;
-  Future<void> getCurrentLocation() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-    }
-    if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
-      var location = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      setState(() {
-        print(location.longitude);
-        print(location.latitude);
-      });
-    } else {
-      print("User denied permission to access device location.");
-    }
-  }
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: PreferredSize(preferredSize: const Size.fromHeight(400),
-        child: Stack(
-          children: <Widget>[
-            Image.asset("images/homePageBg.png", width: double.infinity, fit: BoxFit.fitWidth),
-            Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 50.0, left: 20, right: 20),
-                child: Opacity(
-                  opacity: 0.65,
-                  child: Container(
+        child: Consumer<WeatherProvider>(
+          builder: (BuildContext context, WeatherProvider value, Widget? child) {
+            return  Stack(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(50),
+                    bottomRight: Radius.circular(50),
+                  ),
+                  child: Image.asset(
+                    "images/homePageBg.png",
                     width: double.infinity,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.6),
-                      borderRadius: BorderRadius.circular(20.0),
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 2.0,
+                    fit: BoxFit.contain,
+
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20.0, left: 15, right: 15),
+                    child: Opacity(
+                      opacity: 0.68,
+                      child: Container(
+                        width: double.infinity,
+                        height: 170,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(20.0),
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 2.0,
+                          ),
+                        ),
+                        child:  Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0,bottom: 8.0,right: 8.0,left: 13.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                    Text(value.weatherScreen.region
+                                      ,style: const TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  Text(value.weatherScreen.localDateTime,style: const TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text("${value.weatherScreen.temperatureC} C",style: const TextStyle(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.lightGreenAccent,
+                                  ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(value.weatherScreen.weatherConditionText,style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0,bottom: 8.0,right: 13.0,left: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: 100,
+                                    height: 100,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      child: Image(
+                                        image: value.weatherScreen.weatherConditionIcon.image,
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  ),
+                                  // Text("Change of rain :${value.weatherScreen.precip_mm}"
+                                  //   ,style: const TextStyle(
+                                  //     fontSize: 15,
+                                  //     fontWeight: FontWeight.bold,
+                                  //     color: Colors.lightGreenAccent,
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 65.0, left: 10),
-                  child: SizedBox(child: Image.asset("images/welcome.png")),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: SizedBox(child: Image.asset("images/text.png")),
-                ),
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        _storesBottomSheet(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 190, left: 30.0),
-                        child: SizedBox(child: Image.asset("images/Link.png")),
-                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 65.0, left: 10),
+                      child: SizedBox(child: Image.asset("images/welcome.png")),
                     ),
-                    InkWell(
-                      onTap: () {
-                        _advicesBottomSheet(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 190, left: 7),
-                        child: SizedBox(child: Image.asset("images/Link2.png")),
-                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: SizedBox(child: Image.asset("images/text.png")),
+                    ),
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            _storesBottomSheet(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 190, left: 30.0),
+                            child: SizedBox(child: Image.asset("images/Link.png")),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            _advicesBottomSheet(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 190, left: 7),
+                            child: SizedBox(child: Image.asset("images/Link2.png")),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
+                // Positioned(
+                //   bottom: -60,
+                //   left: 0,
+                //   right: 0,
+                //   child: ClipPath(
+                //     clipper: CustomClipPath(),
+                //     child: Container(
+                //       height: 100,
+                //     ),
+                //   ),
+                // ),
               ],
-            ),
-          ],
-      ),),
+            );
+          },
+        ),),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Center(
@@ -112,7 +197,7 @@ class _MainPageState extends State<MainPage> {
                         InkWell(
                             onTap: () {
                               // TreeApis.getTrees();
-                              getCurrentLocation();
+                              // getCurrentLocation();
                             },
                             child: const Text("Stores", style: TextStyle(color: Colors.black26, fontSize: 15),)
 
@@ -127,26 +212,63 @@ class _MainPageState extends State<MainPage> {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const StoresDetailsPage(),));
                         },
                         child: SizedBox(
-                          height: 100,
-                          child: GridView.builder(
-                            scrollDirection: Axis.horizontal,
-                            reverse: true,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 1,
-                              mainAxisSpacing: 10.0,
-                            ),
-                            itemCount: 4,
-                            itemBuilder: (BuildContext context, int index) {
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(30.0),
-                                child: Image.asset(
-                                  "images/stores.png",
-                                  fit:  BoxFit.fill,
-                                ),
-                              );
+                          height: 150,
+                          child: FutureBuilder<List<StoreImage>>(
+                            future: Provider.of<StoreProvider>(context, listen: false).storeImageFutureList,
+                            builder: (BuildContext context, AsyncSnapshot<List<StoreImage>> snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return const Center(child: CircularProgressIndicator());
+                              } else if (snapshot.hasError) {
+                                return Center(child: Text("Error: ${snapshot.error}"));
+                              } else {
+                                final storeImages = snapshot.data!; // The list of StoreImage objects
+
+                                return GridView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 1,
+                                    mainAxisSpacing: 20.0,
+                                  ),
+                                  itemCount: storeImages.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    final storeImage = storeImages[index];
+                                    return Stack(
+                                      children: [
+                                        SizedBox(
+                                          height:100,
+                                          width: 350,
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(20.0),
+                                            child: Image(
+                                              image: storeImage.storeImage.image,
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 40,
+                                          left: 0,
+                                          right: 0,
+                                          child: Text(
+                                            storeImage.storeName,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              // Adjust the style as needed
+                                            ),
+                                            textAlign: TextAlign.center, // Center the text
+                                          ),
+                                        ),
+                                      ],
+                                    );
+
+                                  },
+                                );
+                              }
                             },
                           ),
                         ),
+
                       ),
                     ),
                   ],
