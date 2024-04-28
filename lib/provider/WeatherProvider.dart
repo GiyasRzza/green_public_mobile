@@ -53,6 +53,7 @@ class WeatherProvider extends ChangeNotifier{
         }
     }
     String formatLocalTime(String dateString) {
+      print(dateString);
       DateTime dateTime = DateTime.parse(dateString);
       DateFormat dateFormat = DateFormat('EEEE, MMMM d, yyyy');
       return dateFormat.format(dateTime);

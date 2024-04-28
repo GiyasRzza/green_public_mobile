@@ -1,12 +1,10 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:green_public_mobile/dto/StoreImage.dart';
+import 'package:green_public_mobile/page/VideoPlayerScreen.dart';
 import 'package:green_public_mobile/provider/StoreProvider.dart';
 import 'package:green_public_mobile/provider/WeatherProvider.dart';
-import 'package:green_public_mobile/widget/CustomClipPath.dart';
 import 'package:provider/provider.dart';
-
 import '../dto/TreeImage.dart';
 import '../provider/TreeProvider.dart';
 import 'StoresDetailsPage.dart';
@@ -31,8 +29,8 @@ class _MainPageState extends State<MainPage> {
               children: <Widget>[
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(50),
-                    bottomRight: Radius.circular(50),
+                    bottomLeft: Radius.circular(53),
+                    bottomRight: Radius.circular(53),
                   ),
                   child: Image.asset(
                     "images/homePageBg.png",
@@ -167,17 +165,6 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ],
                 ),
-                // Positioned(
-                //   bottom: -60,
-                //   left: 0,
-                //   right: 0,
-                //   child: ClipPath(
-                //     clipper: CustomClipPath(),
-                //     child: Container(
-                //       height: 100,
-                //     ),
-                //   ),
-                // ),
               ],
             );
           },
@@ -219,10 +206,13 @@ class _MainPageState extends State<MainPage> {
                               if (snapshot.connectionState == ConnectionState.waiting) {
                                 return const Center(child: CircularProgressIndicator());
                               } else if (snapshot.hasError) {
-                                return Center(child: Text("Error: ${snapshot.error}"));
-                              } else {
+                                return const Center(child: Text(""));
+                              }
+                              else if(!snapshot.hasData){
+                                return const Center(child: CircularProgressIndicator());
+                              }
+                              else {
                                 final storeImages = snapshot.data!; // The list of StoreImage objects
-
                                 return GridView.builder(
                                   scrollDirection: Axis.horizontal,
                                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -383,10 +373,15 @@ class _MainPageState extends State<MainPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    const Row(
+                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Videos", style: TextStyle(color: Colors.black26, fontSize: 15),),
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) =>  VideoPlayerScreen(videoUrl:
+                              "https://res.cloudinary.com/dxzzrcjqk/video/upload/v1714295227/How_To_Plant_a_Tree_c5ee707651.mp4"),));
+                            },
+                            child: const Text("Videos", style: TextStyle(color: Colors.black26, fontSize: 15),)),
                       ],
                     ),
                     Padding(
@@ -485,51 +480,85 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const StoresDetailsPage(),));
+                child: FutureBuilder<List<StoreImage>>(
+                  future: Provider.of<StoreProvider>(context, listen: false).storeImageFutureList,
+                  builder: (BuildContext context, AsyncSnapshot<List<StoreImage>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return const Center(child: Text(""));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(child: Text(""));
+                    } else {
+                      return ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          final storeImage = snapshot.data![index];
 
-                      },
-                      child: SizedBox(
-                        height: 100,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          color: Colors.white12.withOpacity(0.8),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  "images/stores.png",
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const StoresDetailsPage()),
+                              );
+                            },
+                            child: SizedBox(
+                              height: 100,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
                                 ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 8.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                color: Colors.white12.withOpacity(0.8),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
                                     children: [
-                                      Text("Green Public",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                      Text("South Roosevelt LaneMundelei.",style:
-                                      TextStyle(color: Colors.black), ),
-                                      Text("3.41 km.",style:
-                                      TextStyle(color: Colors.black),softWrap: true,overflow:TextOverflow.visible ),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        child: Image(
+                                          image: storeImage.storeImage.image,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: 8.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Green Public",
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            Text(
+                                              "South Roosevelt LaneMundelei.",
+                                              style: TextStyle(color: Colors.black),
+                                            ),
+                                            Text(
+                                              "3.41 km.",
+                                              style: TextStyle(color: Colors.black),
+                                              softWrap: true,
+                                              overflow: TextOverflow.visible,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                )
-                              ],
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    );
+                          );
+                        },
+                      );
+                    }
                   },
                 ),
               )
+
 
 
             ],

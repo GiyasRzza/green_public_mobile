@@ -47,5 +47,13 @@
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
     <string>This app needs access to location in the background.</string>
+    <key>NSMediaLibraryUsageDescription</key>
+    <string>Uygulama medya kütüphanesine erişim gerektirir.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Uygulama mikrofonunuza erişim gerektirir.</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
 </dict>
 </plist>
