@@ -25,66 +25,88 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     });
   }
 
-
-
   @override
   void dispose() {
-    _controller.removeListener(() {
-      setState(() {});
-    });
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Video Player')),
-      body: Column(
-        children: [
-          if (_controller.value.isInitialized)
-            AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
+    final Size screenSize = MediaQuery.of(context).size;
+
+    return AlertDialog(
+      insetPadding: const EdgeInsets.all(16.0),
+      contentPadding: EdgeInsets.zero,
+      content: SizedBox(
+        width: screenSize.width,
+        height: screenSize.height*0.3,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (_controller.value.isInitialized)
+              AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          if (_controller.value.isPlaying) {
+                            _controller.pause();
+                          } else {
+                            _controller.play();
+                          }
+                        });
+                      },
+                      child: VideoPlayer(_controller),
+                    ),
+                    if (!_controller.value.isPlaying)
+                      InkWell(
+                         onTap: (){
+                           _controller.play();
+                         },
+                        child: Icon(
+                          Icons.pause_circle_filled,
+                          size: 64.0,
+                          color: Colors.white.withOpacity(0.7),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    formatDuration(_controller.value.position),
+                  ),
+                  Expanded(
+                    child: VideoProgressIndicator(
+                      _controller,
+                      allowScrubbing: true,
+                    ),
+                  ),
+                  Text(
+                    formatDuration(_controller.value.duration),
+                  ),
+                ],
+              ),
             ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  formatDuration(_controller.value.position),
-                ),
-              ),
-              Expanded(
-                child: VideoProgressIndicator(
-                  _controller,
-                  allowScrubbing: true,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  formatDuration(_controller.value.duration),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            if (_controller.value.isPlaying) {
-              _controller.pause();
-            } else {
-              _controller.play();
-            }
-          });
-        },
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+          ],
         ),
       ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Close'),
+        ),
+      ],
     );
   }
 
@@ -93,5 +115,4 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     final String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
     return '$minutes:$seconds';
   }
-
 }

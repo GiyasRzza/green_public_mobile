@@ -378,8 +378,12 @@ class _MainPageState extends State<MainPage> {
                       children: [
                         InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) =>  VideoPlayerScreen(videoUrl:
-                              "https://res.cloudinary.com/dxzzrcjqk/video/upload/v1714295227/How_To_Plant_a_Tree_c5ee707651.mp4"),));
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return VideoPlayerScreen(videoUrl: 'https://res.cloudinary.com/dxzzrcjqk/video/upload/v1714295227/How_To_Plant_a_Tree_c5ee707651.mp4');
+                                },
+                              );
                             },
                             child: const Text("Videos", style: TextStyle(color: Colors.black26, fontSize: 15),)),
                       ],
