@@ -18,6 +18,7 @@ class Tree {
   final List<String> bestSeasons;
   final String pictureUrl;
   final String videoUrl;
+  final String videoPreview;
 
   Tree({
     required this.id,
@@ -39,6 +40,7 @@ class Tree {
     required this.bestSeasons,
     required this.pictureUrl,
     required this.videoUrl,
+    required this.videoPreview
   });
 
   factory Tree.fromJson(Map<String, dynamic> json) {
@@ -74,6 +76,7 @@ class Tree {
       bestSeasons: attributes.containsKey('bestSeasons') ? List<String>.from(attributes['bestSeasons']) : [],
       pictureUrl: pictureData.containsKey('attributes') ? pictureData['attributes']['url'] ?? '' : '',
       videoUrl: videoData.containsKey('attributes') ? videoData['attributes']['url'] ?? '' : '',
+      videoPreview: videoData.containsKey('attributes') ? videoData['attributes']['previewUrl'] ?? '':''
     );
   }
   // final attributes = json['attributes'] ?? {};

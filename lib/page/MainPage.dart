@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:gif/gif.dart';
 import 'package:green_public_mobile/dto/StoreImage.dart';
+import 'package:green_public_mobile/dto/TreeVideo.dart';
 import 'package:green_public_mobile/page/VideoPlayerScreen.dart';
 import 'package:green_public_mobile/provider/StoreProvider.dart';
 import 'package:green_public_mobile/provider/WeatherProvider.dart';
@@ -17,8 +19,19 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixin{
   int currentPageIndex = 0;
+  late GifController _controller;
+  @override
+  void initState() {
+    super.initState();
+    _controller = GifController(vsync: this);
+  }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -194,35 +207,36 @@ class _MainPageState extends State<MainPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const StoresDetailsPage(),));
-                        },
-                        child: SizedBox(
-                          height: 150,
-                          child: FutureBuilder<List<StoreImage>>(
-                            future: Provider.of<StoreProvider>(context, listen: false).storeImageFutureList,
-                            builder: (BuildContext context, AsyncSnapshot<List<StoreImage>> snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                return const Center(child: CircularProgressIndicator());
-                              } else if (snapshot.hasError) {
-                                return const Center(child: Text(""));
-                              }
-                              else if(!snapshot.hasData){
-                                return const Center(child: CircularProgressIndicator());
-                              }
-                              else {
-                                final storeImages = snapshot.data!; // The list of StoreImage objects
-                                return GridView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 1,
-                                    mainAxisSpacing: 20.0,
-                                  ),
-                                  itemCount: storeImages.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    final storeImage = storeImages[index];
-                                    return Stack(
+                      child: SizedBox(
+                        height: 150,
+                        child: FutureBuilder<List<StoreImage>>(
+                          future: Provider.of<StoreProvider>(context, listen: false).storeImageFutureList,
+                          builder: (BuildContext context, AsyncSnapshot<List<StoreImage>> snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const Center(child: CircularProgressIndicator());
+                            } else if (snapshot.hasError) {
+                              return const Center(child: Text(""));
+                            }
+                            else if(!snapshot.hasData){
+                              return const Center(child: CircularProgressIndicator());
+                            }
+                            else {
+                              final storeImages = snapshot.data!; // The list of StoreImage objects
+                              return GridView.builder(
+                                scrollDirection: Axis.horizontal,
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 1,
+                                  mainAxisSpacing: 20.0,
+                                ),
+                                itemCount: storeImages.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final storeImage = storeImages[index];
+                                  return InkWell(
+                                    onTap: () {
+                                      Provider.of<StoreProvider>(context, listen: false).findStoreByIn(storeImage.id);
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const StoresDetailsPage(),));
+                                    },
+                                    child: Stack(
                                       children: [
                                         SizedBox(
                                           height:100,
@@ -250,15 +264,14 @@ class _MainPageState extends State<MainPage> {
                                           ),
                                         ),
                                       ],
-                                    );
+                                    ),
+                                  );
 
-                                  },
-                                );
-                              }
-                            },
-                          ),
+                                },
+                              );
+                            }
+                          },
                         ),
-
                       ),
                     ),
                   ],
@@ -373,44 +386,81 @@ class _MainPageState extends State<MainPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                     Row(
+                     const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InkWell(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return VideoPlayerScreen(videoUrl: 'https://res.cloudinary.com/dxzzrcjqk/video/upload/v1714295227/How_To_Plant_a_Tree_c5ee707651.mp4');
-                                },
-                              );
-                            },
-                            child: const Text("Videos", style: TextStyle(color: Colors.black26, fontSize: 15),)),
+                        Text("Videos", style: TextStyle(color: Colors.black26, fontSize: 15),),
                       ],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0),
                       child: SizedBox(
                         height: 200,
-                        child: GridView.builder(
-                          scrollDirection: Axis.horizontal,
-                          reverse: true,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
-                            mainAxisSpacing: 10.0,
-                          ),
-                          itemCount: 4,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(30.0),
-                              clipBehavior: Clip.hardEdge,
-                              child: Image.asset(
-                                "images/video.png",
-                                fit:  BoxFit.contain,
-                              ),
-                            );
+                        child: FutureBuilder<List<TreeVideo>>(
+                          future: Provider.of<TreeProvider>(context, listen: false).treeVideoFutureList,
+                          builder: (BuildContext context, AsyncSnapshot<List<TreeVideo>> snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const Center(child: CircularProgressIndicator());
+                            } else if (snapshot.hasError) {
+                              return Center(child: Text('An error occurred: ${snapshot.error}'));
+                            } else if (snapshot.hasData && snapshot.data != null) {
+                              List<TreeVideo> treeVideos = snapshot.data!;
+                              return GridView.builder(
+                                scrollDirection: Axis.horizontal,
+                                reverse: false,
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 1,
+                                  mainAxisSpacing: 10.0,
+                                ),
+                                itemCount: treeVideos.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  TreeVideo treeVideo = treeVideos[index];
+                                  return InkWell(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return VideoPlayerScreen(videoUrl: treeVideo.videoUrl);
+                                        },
+                                      );
+                                    },
+                                    child: Stack(
+                                      children: [
+                                        SizedBox(
+                                          height: double.infinity,
+                                          width: double.infinity,
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(30.0),
+                                            clipBehavior: Clip.hardEdge,
+                                            child: Image.network(
+                                               treeVideo.videoPreview,
+                                              gaplessPlayback: true,
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                        const Positioned(
+                                          top: 10.0,
+                                          left: 10.0,
+                                          child: Icon(
+                                            Icons.play_circle_filled,
+                                            size: 30.0,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+
+                                  );
+                                },
+                              );
+                            } else {
+                              return Container();
+                            }
                           },
                         ),
+
                       ),
                     ),
                   ],
@@ -562,8 +612,6 @@ class _MainPageState extends State<MainPage> {
                   },
                 ),
               )
-
-
 
             ],
           ),

@@ -2,11 +2,12 @@ import 'package:green_public_mobile/apis/TreeApis.dart';
 import 'package:green_public_mobile/dto/Tree.dart';
 import 'package:green_public_mobile/dto/TreeImage.dart';
 import 'package:flutter/material.dart';
+import 'package:green_public_mobile/dto/TreeVideo.dart';
 class TreeProvider extends ChangeNotifier{
 
   Future<List<Tree>> treeFutureList = Future<List<Tree>>.value([]);
   Future<List<TreeImage>> treeImageFutureList = Future<List<TreeImage>>.value([]);
-
+  Future<List<TreeVideo>> treeVideoFutureList = Future<List<TreeVideo>>.value([]);
 
   TreeProvider(){
     getFromApiTrees();
@@ -19,6 +20,7 @@ class TreeProvider extends ChangeNotifier{
     treeFutureList.then((value) => value.addAll(trees));
     treeImageFutureList.then((value) => value.clear());
     convertImageApis();
+    convertVideoApis();
     return treeFutureList;
   }
   Future<List<TreeImage>> convertImageApis() async {
@@ -26,10 +28,31 @@ class TreeProvider extends ChangeNotifier{
    List<Tree> trees=await treeFutureList;
     for (var element in trees) {
       treeImageFutureList.then((value) => value.add(TreeImage(element.id, element.name,
-          getCloudImage(element.pictureUrl), element.description)));
+          getCloudImage(element.pictureUrl), element.description,element.videoUrl,getCloudImage(element.videoPreview))));
     }
     return treeImageFutureList;
   }
+
+  Future<List<TreeVideo>> convertVideoApis() async {
+    notifyListeners();
+    List<Tree> trees = await treeFutureList;
+    List<TreeVideo> treeVideoList = [];
+
+    for (var element in trees) {
+      if (element.videoUrl.isNotEmpty) {
+        TreeVideo treeVideo = TreeVideo(element.videoUrl, element.videoPreview);
+        treeVideoList.add(treeVideo);
+      }
+    }
+
+    treeVideoFutureList.then((value) {
+      value.clear();
+      value.addAll(treeVideoList);
+    });
+
+    return treeVideoFutureList;
+  }
+
 
   Image getCloudImage(String url) {
     try {

@@ -7,11 +7,11 @@ import '../dto/StoreImage.dart';
 class StoreProvider extends ChangeNotifier{
   Future<List<Store>> storeFutureList = Future<List<Store>>.value([]);
   Future<List<StoreImage>> storeImageFutureList = Future<List<StoreImage>>.value([]);
-
-
+  Store currentStore=Store.empty();
   StoreProvider(){
     getFromApiStores();
   }
+
 
   Future<List<Store>> getFromApiStores() async {
     notifyListeners();
@@ -32,6 +32,14 @@ class StoreProvider extends ChangeNotifier{
     return storeImageFutureList;
   }
 
+  Future<Store> findStoreByIn(int id) async {
+    notifyListeners();
+    List<Store> stores= await storeFutureList;
+    int index = stores.indexWhere((element) =>element.id == id);
+    currentStore=stores[index];
+   return currentStore;
+
+  }
   Image getCloudImage(String url) {
     print("store image url: $url");
     try {

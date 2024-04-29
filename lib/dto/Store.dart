@@ -1,17 +1,17 @@
 class Store {
-  final int id;
-  final String storeName;
-  final String phoneNumber;
-  final String address;
-  final String storeDescription;
-  final int distance;
-  final String openingAt;
-  final String closingAt;
-  final String createdAt;
-  final String updatedAt;
-  final String publishedAt;
-  final String imageUrl;
-  final List<String> openDays;
+   int id=0;
+   String storeName="Test";
+   String phoneNumber="";
+   String address="";
+   String storeDescription="";
+   int distance=1;
+   String openingAt="";
+   String closingAt="";
+   String createdAt="";
+   String updatedAt="";
+   String publishedAt="";
+   String imageUrl="";
+   List<String> openDays=[];
 
   Store({
     required this.id,
@@ -28,6 +28,9 @@ class Store {
     required this.imageUrl,
     required this.openDays,
   });
+
+
+  Store.empty();
 
   factory Store.fromJson(Map<String, dynamic> json) {
     final attributes = json['attributes'] ?? {};
