@@ -8,7 +8,7 @@ class TreeProvider extends ChangeNotifier{
   Future<List<Tree>> treeFutureList = Future<List<Tree>>.value([]);
   Future<List<TreeImage>> treeImageFutureList = Future<List<TreeImage>>.value([]);
   Future<List<TreeVideo>> treeVideoFutureList = Future<List<TreeVideo>>.value([]);
-
+  Tree currentTree=Tree.empty();
   TreeProvider(){
     getFromApiTrees();
   }
@@ -52,7 +52,14 @@ class TreeProvider extends ChangeNotifier{
 
     return treeVideoFutureList;
   }
+  Future<Tree> findTreeByIn(int id) async {
+    notifyListeners();
+    List<Tree> stores= await treeFutureList;
+    int index = stores.indexWhere((element) =>element.id == id);
+    currentTree=stores[index];
+    return currentTree;
 
+  }
 
   Image getCloudImage(String url) {
     try {

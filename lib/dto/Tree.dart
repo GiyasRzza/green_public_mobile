@@ -1,24 +1,24 @@
 class Tree {
-  final int id;
-  final String name;
-  final String insertedDate;
-  final String updatedDate;
-  final double price;
-  final String description;
-  final String watering;
-  final String depth;
-  final String spacing;
-  final String light;
-  final String soilType;
-  final String plantingProcess;
-  final String createdAt;
-  final String updatedAt;
-  final String publishedAt;
-  final String locale;
-  final List<String> bestSeasons;
-  final String pictureUrl;
-  final String videoUrl;
-  final String videoPreview;
+   int id=1;
+   String name="";
+   String insertedDate="";
+   String updatedDate="";
+   double price=0.0;
+   String description="";
+   String watering="";
+   String depth="";
+   String spacing="";
+   String light="";
+   String soilType="";
+   String plantingProcess="";
+   String createdAt="";
+   String updatedAt="";
+   String publishedAt="";
+   String locale="";
+   List<String> bestSeasons=[];
+   String pictureUrl="";
+   String videoUrl="";
+   String videoPreview="";
 
   Tree({
     required this.id,
@@ -42,6 +42,9 @@ class Tree {
     required this.videoUrl,
     required this.videoPreview
   });
+
+
+   Tree.empty();
 
   factory Tree.fromJson(Map<String, dynamic> json) {
     final attributes = json['attributes'] ?? {};

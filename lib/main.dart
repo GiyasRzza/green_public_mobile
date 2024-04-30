@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:green_public_mobile/page/MainPage.dart';
 import 'package:green_public_mobile/provider/StoreProvider.dart';
 import 'package:green_public_mobile/provider/TreeProvider.dart';
@@ -9,6 +8,11 @@ import 'package:green_public_mobile/provider/WeatherProvider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 

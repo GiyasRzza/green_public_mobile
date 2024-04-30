@@ -7,6 +7,7 @@ import '../dto/StoreImage.dart';
 class StoreProvider extends ChangeNotifier{
   Future<List<Store>> storeFutureList = Future<List<Store>>.value([]);
   Future<List<StoreImage>> storeImageFutureList = Future<List<StoreImage>>.value([]);
+  Future<List<StoreImage>> get getStoreImageListFuture => storeImageFutureList;
   Store currentStore=Store.empty();
   StoreProvider(){
     getFromApiStores();

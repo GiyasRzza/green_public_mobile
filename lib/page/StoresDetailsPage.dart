@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:green_public_mobile/provider/StoreProvider.dart';
 import 'package:provider/provider.dart';
 
 import '../dto/TreeImage.dart';
 import '../provider/TreeProvider.dart';
-import '../provider/StoreProvider.dart';
 
 class StoresDetailsPage extends StatefulWidget {
   const StoresDetailsPage({Key? key}) : super(key: key);
@@ -18,95 +18,113 @@ class _StoresDetailsPageState extends State<StoresDetailsPage> {
     return Consumer<StoreProvider>(
       builder: (BuildContext context, StoreProvider value, Widget? child) {
         return Scaffold(
-          body: Stack(
-            children: [
-              // Resim
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(500),
+            child: Stack(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(10.0),
                     bottomRight: Radius.circular(10.0),
                   ),
                   child: Image.network(
                     value.currentStore.imageUrl,
-                    fit: BoxFit.fill,
                     width: double.infinity,
-                    height: 300, // Görselin yüksekliği
+                    fit: BoxFit.fill,
                   ),
                 ),
-              ),
-
-              Positioned(
-                top: 220,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20.0),
-                      topRight: Radius.circular(20.0),
+                Positioned(
+                  bottom: -60,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: Colors.white.withOpacity(0.99),
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
+                    height: 100,
                   ),
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                ),
 
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12.0),
-                                child: Image.network(
-                                  value.currentStore.imageUrl,
-                                  width: 70,
-                                  height: 70,
-                                  fit: BoxFit.cover,
+              ],
+            ),
+          ),
+          body: SingleChildScrollView(
+            child: SizedBox(
+
+              width: double.infinity,
+              height: 600,
+              child:  Center(
+                child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 70,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(17.0),
+                                  child: Image.network(
+                                    value.currentStore.imageUrl,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                              const SizedBox(width: 16.0),
-                              // Metin
+                              const SizedBox(
+                                width: 18,
+                              ),
                               Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                child: Stack(
+                                  alignment: Alignment.centerRight,
                                   children: [
-                                    Text(
-                                      value.currentStore.storeName,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.0,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8.0),
-                                    Row(
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+
                                       children: [
                                         Text(
-                                          "${value.currentStore.openDays.first} - ${value.currentStore.openDays.last}",
+                                          value.currentStore.storeName,
                                           style: const TextStyle(
-                                            color: Colors.grey,
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(width: 8.0),
-                                        Text(
-                                          "${value.currentStore.openingAt} - ${value.currentStore.closingAt}",
-                                          style: const TextStyle(
-                                            color: Colors.grey,
-                                          ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "${value.currentStore.openDays.first} - ${value.currentStore.openDays.last}",
+                                              softWrap: true,
+                                              overflow: TextOverflow.clip,
+                                              style: const TextStyle(
+                                                color: Colors.black26,
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                            Text(
+                                              " / ${value.currentStore.openingAt} - ${value.currentStore.closingAt}",
+                                              softWrap: true,
+                                              overflow: TextOverflow.clip,
+                                              style: const TextStyle(
+                                                color: Colors.black26,
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 8.0),
-                                    Text(
-                                      "${value.currentStore.distance} km",
-                                      style: const TextStyle(
-                                        color: Colors.black,
+                                    Positioned(
+                                      right: 0,
+                                      child: Text(
+                                        "${value.currentStore.distance.toString()} km",
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -114,55 +132,95 @@ class _StoresDetailsPageState extends State<StoresDetailsPage> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 16.0),
-
-                          Text(
-                            value.currentStore.storeDescription,
-                            style: const TextStyle(fontSize: 16.0),
-                          ),
-                          const SizedBox(height: 16.0),
-
-                          Row(
+                        ),
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.start,
+                           children: [
+                             Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(value.currentStore.storeDescription,
+                                  overflow: TextOverflow.fade,
+                                  style: const TextStyle(color: Colors.black, fontSize: 15)),
+                                                     ),
+                           ],
+                         ),
+                         Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
                             children: [
-                              const Icon(Icons.phone, size: 20.0),
-                              const SizedBox(width: 8.0),
-                              Text(
-                                value.currentStore.phoneNumber,
-                                style: const TextStyle(fontSize: 16.0),
+                              const Icon(Icons.phone),
+                              const SizedBox(
+                                width: 5,
                               ),
+                              Text(value.currentStore.phoneNumber)
                             ],
                           ),
-                          const SizedBox(height: 8.0),
-                          Row(
+                        ),
+                         Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
                             children: [
-                              const Icon(Icons.location_on, size: 20.0, color: Colors.blue),
-                              const SizedBox(width: 8.0),
-                              Text(
-                                value.currentStore.address,
-                                style: const TextStyle(fontSize: 16.0, color: Colors.blue),
+                              const Icon(Icons.location_on,color: Colors.blueAccent,),
+                              const SizedBox(
+                                width: 5,
                               ),
+                              Text(value.currentStore.address,
+                                  overflow: TextOverflow.visible,
+                                  style: const TextStyle(color: Colors.blueAccent, fontSize: 15)),
                             ],
                           ),
-                          const SizedBox(height: 16.0),
-                          // Arama kutusu
-                          Container(
-                            height: 40,
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.black45,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                ),
+                                child: const Text(
+                                  "Trees",
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(color: Colors.black45, fontSize: 20),
+                                ),
+                              ),
+                              const Text("Care products",
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(color: Colors.black45, fontSize: 20)),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            width: 350,
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade300),
-                              borderRadius: BorderRadius.circular(12.0),
+                              border: Border.all(
+                                color: Colors.black45,
+                                width: 1.0,
+                              ),
+                              borderRadius: const BorderRadius.all(Radius.circular(15.0)),
                             ),
-                            child: Row(
+                            child: const Row(
                               children: [
-                                Icon(Icons.search, size: 20.0, color: Colors.grey.shade600),
-                                const SizedBox(width: 8.0),
-                                const Text("Search"),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Icon(Icons.search_sharp,size: 35,color: Colors.black45,),
+                                ),
+                                Text("Search",style: TextStyle(color:Colors.black45,fontSize: 25),),
                               ],
                             ),
                           ),
-                          const SizedBox(height: 16.0),
-                          // GridView
-                          SizedBox(
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12.0),
+                          child: SizedBox(
                             height: 200,
                             child: FutureBuilder<List<TreeImage>>(
                               future: Provider.of<TreeProvider>(context, listen: false).treeImageFutureList,
@@ -170,7 +228,7 @@ class _StoresDetailsPageState extends State<StoresDetailsPage> {
                                 if (snapshot.connectionState == ConnectionState.waiting) {
                                   return const Center(child: CircularProgressIndicator());
                                 } else if (snapshot.hasError) {
-                                  return Center(child: Text('Error: ${snapshot.error}'));
+                                  return Center(child: Text('Err: ${snapshot.error}'));
                                 } else if (snapshot.hasData) {
                                   List<TreeImage> treeImages = snapshot.data!;
                                   return GridView.builder(
@@ -183,55 +241,72 @@ class _StoresDetailsPageState extends State<StoresDetailsPage> {
                                     itemBuilder: (BuildContext context, int index) {
                                       TreeImage treeImage = treeImages[index];
                                       return SizedBox(
-                                        height: 200,
+                                        height: 250,
                                         child: Card(
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(12.0),
                                           ),
-                                          child: Column(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius: BorderRadius.circular(12.0),
-                                                child: Image(
-                                                  image: treeImage.treeImage.image,
-                                                  fit: BoxFit.cover,
-                                                  width: 100,
+                                          color: Colors.white12.withOpacity(0.8),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  width: 200,
                                                   height: 100,
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(20.0),
+                                                    child: Image(
+                                                      image: treeImage.treeImage.image,
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                              const SizedBox(height: 8.0),
-                                              Text(
-                                                treeImage.treeName,
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14.0,
+
+                                                Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Text(
+                                                    treeImage.treeName,
+                                                    style: const TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 17,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                              const SizedBox(height: 4.0),
-                                              Text(
-                                                treeImage.description,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
-                                              ),
-                                            ],
+                                                Expanded(
+                                                  child: Tooltip(
+                                                    message: treeImage.description,
+                                                    child: Text(
+                                                      treeImage.description,
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                      ),
+                                                      softWrap: true,
+                                                      overflow: TextOverflow.visible,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       );
                                     },
                                   );
                                 } else {
-                                  return const Center(child: Text('No data available'));
+                                  return const Center(child: Text('Data Empty'));
                                 }
                               },
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
         );
       },

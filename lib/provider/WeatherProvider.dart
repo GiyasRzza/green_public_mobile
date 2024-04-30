@@ -52,11 +52,22 @@ class WeatherProvider extends ChangeNotifier{
             return Image.asset("images/sunny default icon.jpeg",);
         }
     }
+    // String formatLocalTime(String dateString) {
+    //   print("gelen date ${dateString}" );
+    //   DateTime dateTime = DateTime.parse(dateString);
+    //   DateFormat dateFormat = DateFormat('EEEE, MMMM d, yyyy');
+    //   return dateFormat.format(dateTime);
+    // }
     String formatLocalTime(String dateString) {
-      print(dateString);
-      DateTime dateTime = DateTime.parse(dateString);
-      DateFormat dateFormat = DateFormat('EEEE, MMMM d, yyyy');
-      return dateFormat.format(dateTime);
+      final RegExp dateRegex = RegExp(r"(\d{4}-\d{2}-\d{2})");
+      final match = dateRegex.firstMatch(dateString);
+      if (match != null) {
+        final datePart = match.group(1);
+        DateTime dateTime = DateTime.parse(datePart!);
+        DateFormat dateFormat = DateFormat('EEEE, MMMM d, yyyy');
+        return dateFormat.format(dateTime);
+      } else {
+        throw FormatException('Invalid date format: $dateString');
+      }
     }
-
 }

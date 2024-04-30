@@ -40,40 +40,42 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       contentPadding: EdgeInsets.zero,
       content: SizedBox(
         width: screenSize.width,
-        height: screenSize.height*0.3,
+        height: screenSize.height*0.45,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (_controller.value.isInitialized)
-              AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          if (_controller.value.isPlaying) {
-                            _controller.pause();
-                          } else {
-                            _controller.play();
-                          }
-                        });
-                      },
-                      child: VideoPlayer(_controller),
-                    ),
-                    if (!_controller.value.isPlaying)
+              Expanded(
+                child: AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
                       InkWell(
-                         onTap: (){
-                           _controller.play();
-                         },
-                        child: Icon(
-                          Icons.pause_circle_filled,
-                          size: 64.0,
-                          color: Colors.white.withOpacity(0.7),
-                        ),
+                        onTap: () {
+                          setState(() {
+                            if (_controller.value.isPlaying) {
+                              _controller.pause();
+                            } else {
+                              _controller.play();
+                            }
+                          });
+                        },
+                        child: VideoPlayer(_controller),
                       ),
-                  ],
+                      if (!_controller.value.isPlaying)
+                        InkWell(
+                           onTap: (){
+                             _controller.play();
+                           },
+                          child: Icon(
+                            Icons.pause_circle_filled,
+                            size: 64.0,
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             Padding(
