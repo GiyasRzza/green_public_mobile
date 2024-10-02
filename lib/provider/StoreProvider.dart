@@ -33,7 +33,7 @@ class StoreProvider extends ChangeNotifier{
     return storeImageFutureList;
   }
 
-  Future<Store> findStoreByIn(int id) async {
+  Future<Store> findStoreById(int id) async {
     notifyListeners();
     List<Store> stores= await storeFutureList;
     int index = stores.indexWhere((element) =>element.id == id);

@@ -52,7 +52,7 @@ class TreeProvider extends ChangeNotifier{
 
     return treeVideoFutureList;
   }
-  Future<Tree> findTreeByIn(int id) async {
+  Future<Tree> findTreeById(int id) async {
     notifyListeners();
     List<Tree> stores= await treeFutureList;
     int index = stores.indexWhere((element) =>element.id == id);

@@ -23,11 +23,7 @@ class Weather {
 
   factory Weather.fromJson(String jsonString) {
     final Map<String, dynamic> json = jsonDecode(jsonString);
-
-    // Extract weatherData map from JSON
     final Map<String, dynamic> weatherDataMap = json['weatherData'] ?? {};
-
-    // Convert the weatherData map to a WeatherData object
     final WeatherData weatherData = WeatherData.fromJson(weatherDataMap);
 
     return Weather(

@@ -11,6 +11,7 @@ import '../dto/TreeImage.dart';
 import '../provider/TreeProvider.dart';
 import 'StoresDetailsPage.dart';
 import 'TreeDetailsPage.dart';
+import 'map_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -221,7 +222,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                                       final storeImage = storeImages[index];
                                       return InkWell(
                                         onTap: () {
-                                          Provider.of<StoreProvider>(context, listen: false).findStoreByIn(storeImage.id);
+                                          Provider.of<StoreProvider>(context, listen: false).findStoreById(storeImage.id);
                                           Navigator.push(context, MaterialPageRoute(builder: (context) => const StoresDetailsPage(),));
                                         },
                                         child: Stack(
@@ -309,7 +310,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                                   TreeImage treeImage = treeImages[index];
                                   return InkWell(
                                     onTap: () {
-                                      Provider.of<TreeProvider>(context, listen: false).findTreeByIn(treeImage.id);
+                                      Provider.of<TreeProvider>(context, listen: false).findTreeById(treeImage.id);
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => const TreeDetailsPage(),));
                                     },
                                     child: SizedBox(
@@ -480,6 +481,12 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
           setState(() {
             currentPageIndex = index;
           });
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MapPage())
+            );
+          }
         },
         indicatorColor: Colors.green,
         selectedIndex: currentPageIndex,
@@ -555,7 +562,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
 
                           return InkWell(
                             onTap: () {
-                              Provider.of<StoreProvider>(context, listen: false).findStoreByIn(storeImage.id);
+                              Provider.of<StoreProvider>(context, listen: false).findStoreById(storeImage.id);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => const StoresDetailsPage()),
@@ -726,7 +733,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                               TreeImage treeImage = treeImages[index];
                               return InkWell(
                                 onTap: () {
-                                  Provider.of<TreeProvider>(context, listen: false).findTreeByIn(treeImage.id);
+                                  Provider.of<TreeProvider>(context, listen: false).findTreeById(treeImage.id);
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => const TreeDetailsPage(),));
                                 },
                                 child: SizedBox(

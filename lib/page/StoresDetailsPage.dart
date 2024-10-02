@@ -52,7 +52,6 @@ class _StoresDetailsPageState extends State<StoresDetailsPage> {
           ),
           body: SingleChildScrollView(
             child: SizedBox(
-
               width: double.infinity,
               height: 600,
               child:  Center(

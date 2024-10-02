@@ -16,7 +16,6 @@ class WeatherProvider extends ChangeNotifier{
 
   Future<void> getCurrentLocation() async {
       notifyListeners();
-
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
             permission = await Geolocator.requestPermission();

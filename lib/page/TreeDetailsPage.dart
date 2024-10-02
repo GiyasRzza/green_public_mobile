@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:green_public_mobile/provider/TreeProvider.dart';
 import 'package:provider/provider.dart';
 
