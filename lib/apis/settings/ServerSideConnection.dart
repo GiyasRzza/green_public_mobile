@@ -1,3 +1,3 @@
 class ServerSideConnection {
-  static String connectionUrl = "https://greenpublicstrapi-607f927739f3.herokuapp.com/api";
+  static String connectionUrl = "http://37.60.230.124/api";
 }

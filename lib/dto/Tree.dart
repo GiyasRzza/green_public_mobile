@@ -1,24 +1,24 @@
 class Tree {
-   int id=1;
-   String name="";
-   String insertedDate="";
-   String updatedDate="";
-   double price=0.0;
-   String description="";
-   String watering="";
-   String depth="";
-   String spacing="";
-   String light="";
-   String soilType="";
-   String plantingProcess="";
-   String createdAt="";
-   String updatedAt="";
-   String publishedAt="";
-   String locale="";
-   List<String> bestSeasons=[];
-   String pictureUrl="";
-   String videoUrl="";
-   String videoPreview="";
+  int id;
+  String name;
+  String insertedDate;
+  String updatedDate;
+  double price;
+  String description;
+  String watering;
+  String depth;
+  String spacing;
+  String light;
+  String soilType;
+  String plantingProcess;
+  String createdAt;
+  String updatedAt;
+  String publishedAt;
+  String locale;
+  List<String> bestSeasons;
+  String pictureUrl;
+  String videoUrl;
+  String videoPreview;
 
   Tree({
     required this.id,
@@ -40,21 +40,39 @@ class Tree {
     required this.bestSeasons,
     required this.pictureUrl,
     required this.videoUrl,
-    required this.videoPreview
+    required this.videoPreview,
   });
 
-
-   Tree.empty();
+  Tree.empty()
+      : id = 0,
+        name = 'Unknown',
+        insertedDate = 'Unknown',
+        updatedDate = 'Unknown',
+        price = 0.0,
+        description = 'No description available',
+        watering = 'Unknown',
+        depth = 'Unknown',
+        spacing = 'Unknown',
+        light = 'Unknown',
+        soilType = 'Unknown',
+        plantingProcess = 'Unknown',
+        createdAt = 'Unknown',
+        updatedAt = 'Unknown',
+        publishedAt = 'Unknown',
+        locale = 'Unknown',
+        bestSeasons = [],
+        pictureUrl = '',
+        videoUrl = '',
+        videoPreview = '';
 
   factory Tree.fromJson(Map<String, dynamic> json) {
     final attributes = json['attributes'] ?? {};
-    final pictureData = attributes['picture']['data'] ?? {};
-    final videoData = attributes['video']['data'] ?? {};
-
+    final pictureData = attributes['picture']?['data'];
+    final videoData = attributes['video']?['data'];
 
     double price;
     try {
-      price = attributes['price']?.toDouble() ?? 0.0;
+      price = (attributes['price'] != null) ? attributes['price'].toDouble() : 0.0;
     } catch (e) {
       price = 0.0;
     }
@@ -71,44 +89,23 @@ class Tree {
       spacing: attributes['spacing'] ?? 'Unknown',
       light: attributes['light'] ?? 'Unknown',
       soilType: attributes['soilType'] ?? 'Unknown',
-      plantingProcess: attributes['plantingProcess'] ?? 'Unknown',
+      plantingProcess: attributes['planting_process'] ?? 'Unknown',
       createdAt: attributes['createdAt'] ?? 'Unknown',
       updatedAt: attributes['updatedAt'] ?? 'Unknown',
       publishedAt: attributes['publishedAt'] ?? 'Unknown',
       locale: attributes['locale'] ?? 'Unknown',
-      bestSeasons: attributes.containsKey('bestSeasons') ? List<String>.from(attributes['bestSeasons']) : [],
-      pictureUrl: pictureData.containsKey('attributes') ? pictureData['attributes']['url'] ?? '' : '',
-      videoUrl: videoData.containsKey('attributes') ? videoData['attributes']['url'] ?? '' : '',
-      videoPreview: videoData.containsKey('attributes') ? videoData['attributes']['previewUrl'] ?? '':''
+      bestSeasons: attributes['bestSeasons'] != null
+          ? List<String>.from(attributes['bestSeasons'])
+          : [],
+      pictureUrl: pictureData != null && pictureData.containsKey('attributes')
+          ? pictureData['attributes']['url'] ?? ''
+          : '',
+      videoUrl: videoData != null && videoData.containsKey('attributes')
+          ? videoData['attributes']['url'] ?? ''
+          : '',
+      videoPreview: videoData != null && videoData.containsKey('attributes')
+          ? videoData['attributes']['previewUrl'] ?? ''
+          : '',
     );
   }
-  // final attributes = json['attributes'] ?? {};
-  // final pictureData = attributes['picture']['data'] ?? {};
-  // final videoData = attributes['video']['data'] ?? {};
-
-  // double price;
-  // try {
-  // price = attributes['price']?.toDouble() ?? 0.0;
-  // } catch (e) {
-  // price = 0.0;
-  // }
-  //
-  //
-  // String smallImageUrl = '';
-  // if (pictureData.containsKey('attributes')) {
-  // var pictureAttributes = pictureData['attributes'];
-  //
-  // if (pictureAttributes.containsKey('formats')) {
-  // var formats = pictureAttributes['formats'];
-  //
-  // if (formats.containsKey('small')) {
-  // var small = formats['small'];
-  //
-  // if (small.containsKey('url')) {
-  // smallImageUrl = small['url'];
-  // }
-  // }
-  // }
-  // }
-
 }

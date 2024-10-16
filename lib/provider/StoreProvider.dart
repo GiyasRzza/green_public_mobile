@@ -9,6 +9,7 @@ class StoreProvider extends ChangeNotifier{
   Future<List<StoreImage>> storeImageFutureList = Future<List<StoreImage>>.value([]);
   Future<List<StoreImage>> get getStoreImageListFuture => storeImageFutureList;
   Store currentStore=Store.empty();
+
   StoreProvider(){
     getFromApiStores();
   }
@@ -21,6 +22,9 @@ class StoreProvider extends ChangeNotifier{
     storeFutureList.then((value) => value.addAll(trees));
     storeImageFutureList.then((value) => value.clear());
     convertImageApis();
+    print(storeFutureList.then((value) => value.forEach((element) {
+      element.storeName;
+    },),));
     return storeFutureList;
   }
   Future<List<StoreImage>> convertImageApis() async {

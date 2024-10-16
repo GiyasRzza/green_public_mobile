@@ -7,6 +7,7 @@ import 'package:green_public_mobile/page/VideoPlayerScreen.dart';
 import 'package:green_public_mobile/provider/StoreProvider.dart';
 import 'package:green_public_mobile/provider/WeatherProvider.dart';
 import 'package:provider/provider.dart';
+import '../apis/TreeApis.dart';
 import '../dto/TreeImage.dart';
 import '../provider/TreeProvider.dart';
 import 'StoresDetailsPage.dart';
@@ -151,7 +152,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                             _storesBottomSheet(context);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 220, left: 18.0),
+                            padding: const EdgeInsets.only(top: 220, left: 17.0),
                             child: SizedBox(child: Image.asset("images/Link.png")),
                           ),
                         ),
@@ -160,7 +161,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                             _advicesBottomSheet(context);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 220, left: 60),
+                            padding: const EdgeInsets.only(top: 220, left: 40),
                             child: SizedBox(child: Image.asset("images/Link2.png")),
                           ),
                         ),
@@ -186,7 +187,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                       children: [
                         InkWell(
                             onTap: () {
-                              // TreeApis.getTrees();
+                              TreeApis.getTrees();
                               // getCurrentLocation();
                             },
                             child: const Text("Stores", style: TextStyle(color: Colors.black26, fontSize: 15),)
