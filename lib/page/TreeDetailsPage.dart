@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:green_public_mobile/provider/TreeProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:green_public_mobile/provider/TreeProvider.dart';
 
 import 'VideoPlayerScreen.dart';
 
@@ -12,285 +12,257 @@ class TreeDetailsPage extends StatefulWidget {
 }
 
 class _TreeDetailsPageState extends State<TreeDetailsPage> {
+  double imageScale = 1.0;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<TreeProvider>(
       builder: (BuildContext context, TreeProvider value, Widget? child) {
-        return   Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(500),
-            child: Stack(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(10.0),
-                    bottomRight: Radius.circular(10.0),
-                  ),
-                  child: Image.network(
-                    value.currentTree.pictureUrl,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+        return Scaffold(
+          body: Stack(
+            children: [
+              Positioned.fill(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Transform.scale(
+                      scale: 1,
+                      child: Image.network(
+                        value.currentTree.pictureUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
                 ),
-                Positioned(
-                  bottom: -60,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Colors.white.withOpacity(0.999),
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    height: 100,
-                  ),
-                ),
-
-              ],
-            ),
-          ),
-          body:  SingleChildScrollView(
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(value.currentTree.name, style:
-                        const TextStyle(color: Colors.black, fontSize: 25)),
-                          Text("${value.currentTree.price.toString()} AZN", style:
-                        const TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontSize: 20)),
-                      ],
-                    ),
-
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: SizedBox(
-                      height: 50,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: value.currentTree.bestSeasons.length,
-                        itemBuilder: (context, index) {
-                          String season = value.currentTree.bestSeasons[index];
-                          return SizedBox(
-                            height: 60,
-                            width: 100,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
+              ),
+              DraggableScrollableSheet(
+                initialChildSize: 0.45,
+                minChildSize: 0.3,
+                maxChildSize: 0.75,
+                builder: (context, scrollController) {
+                  return NotificationListener<ScrollNotification>(
+                    onNotification: (scrollNotification) {
+                      if (scrollNotification is ScrollUpdateNotification) {
+                      }
+                      return true;
+                    },
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListView(
+                          controller: scrollController,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    value.currentTree.name,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 25,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${value.currentTree.price.toString()} AZN",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              child: Center(
-                                child: Text(
-                                  season,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10, right: 15, left: 15, bottom: 10),
+                              child: Text(
+                                value.currentTree.description,
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: SizedBox(
+                                height: 50,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: value.currentTree.bestSeasons.length,
+                                  itemBuilder: (context, index) {
+                                    String season = value.currentTree.bestSeasons[index];
+                                    return SizedBox(
+                                      height: 60,
+                                      width: 100,
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            season,
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            SingleChildScrollView(
+                              child: GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding: const EdgeInsets.all(8.0),
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10.0,
+                                  mainAxisSpacing: 10.0,
+                                  childAspectRatio: 2,
+                                ),
+                                itemCount: value.currentTree.characteristicBundle?.characteristics.length ?? 0,
+                                itemBuilder: (context, index) {
+                                  String name = value.currentTree.characteristicBundle?.characteristics[index].name ?? 'No name available';
+                                  final data =value.currentTree.characteristicBundle?.characteristics[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 8.0),
+                                          child: SizedBox(
+                                            width: 50,
+                                            height: 50,
+                                            child: Image.asset(
+                                              "images/Spacing.png",
+                                              fit: BoxFit.fitHeight,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                name,
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              Text(
+                                                data!.value,
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Planting Process",
+                                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: value.currentTree.plantingProcess?.processElements.length ?? 0,
+                                    itemBuilder: (context, index) {
+                                      final data = value.currentTree.plantingProcess?.processElements[index];
+                                      print(data?.text);
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                        child: Text(
+                                          data?.text ?? 'No Data',
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+
+
+                            Center(
+                              child: InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return VideoPlayerScreen(videoUrl: value.currentTree.videoUrl);
+                                    },
+                                  );
+                                },
+                                child: SizedBox(
+                                  width: 400,
+                                  height: 200,
+                                  child: Stack(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        child: Image.network(
+                                          value.currentTree.videoPreview,
+                                          gaplessPlayback: true,
+                                          fit: BoxFit.fill,
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                        ),
+                                      ),
+                                      Center(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withOpacity(0.7),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: const Icon(
+                                            Icons.play_arrow,
+                                            color: Colors.white,
+                                            size: 48.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                          );
-                        },
-                      ),
-                    ),
-
-
-                  ),
-                   Padding(
-                    padding: const EdgeInsets.only(top: 10,right: 15,left: 15,bottom: 10),
-                    child: Expanded(
-                      child: Text(value.currentTree.description,overflow: TextOverflow.clip),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: Image.asset(
-                              "images/İcon.png",
-                              width: double.infinity,
-                              fit: BoxFit.fitHeight,
-                            ),
-                          ),
-                        ),
-                         Column(
-                          children: [
-                            const Text("Watering",style: TextStyle(
-                                fontWeight: FontWeight.bold,color: Colors.black,fontSize: 20
-                            ),),
-                             SizedBox(
-                               width: 100,
-                               height: 20,
-                               child: Expanded(
-                                 child: Text(value.currentTree.watering,
-                                   overflow: TextOverflow.fade,
-                                   maxLines: 3,
-                                   softWrap: true,
-                                 ),
-                               ),
-                             ),
                           ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: Image.asset(
-                              "images/derph.png",
-                              width: double.infinity,
-                              fit: BoxFit.fitHeight,
-                            ),
-                          ),
-                        ),
-                         Column(
-                          children: [
-                            const Text("Depth",style: TextStyle(
-                                fontWeight: FontWeight.bold,color: Colors.black,fontSize: 20
-                            ),),
-                            SizedBox(
-                              width: 100,
-                              height: 20,
-                              child: Expanded(
-                                child: Text(value.currentTree.depth,
-                                  overflow: TextOverflow.fade,
-                                  maxLines: 3,
-                                  softWrap: true,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0,left: 8.0,right: 20.0,top: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0,left: 8.0,right: 8.0,top: 8.0),
-                          child: SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: Image.asset(
-                              "images/sun.png",
-                              width: double.infinity,
-                              fit: BoxFit.fitHeight,
-                            ),
-                          ),
-                        ),
-                         Column(
-                          children: [
-                            const Text("Light",style: TextStyle(
-                                fontWeight: FontWeight.bold,color: Colors.black,fontSize: 20
-                            ),),
-                            SizedBox(
-                              width: 100,
-                              height: 20,
-                              child: Expanded(
-                                child: Text(value.currentTree.light,
-                                  overflow: TextOverflow.fade,
-                                  maxLines: 3,
-                                  softWrap: false,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: Image.asset(
-                              "images/soil.png",
-                              width: double.infinity,
-                              fit: BoxFit.fitHeight,
-                            ),
-                          ),
-                        ),
-                         Column(
-                          children: [
-                            const Text("Soil type",style: TextStyle(
-                                fontWeight: FontWeight.bold,color: Colors.black,fontSize: 20
-                            ),),
-                            SizedBox(
-                              width: 100,
-                              height: 20,
-                              child: Expanded(
-                                child: Text(value.currentTree.soilType,
-                                  overflow: TextOverflow.fade,
-                                  maxLines: 3,
-                                  softWrap: false,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Planting process",style: TextStyle(fontSize: 30),),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        Text("1. Cleaning the site.",style: TextStyle(fontSize: 18),),
-                        Text("2. Digging a hole..",style: TextStyle(fontSize: 18),),
-                        Text("3. Obtaining the plant.",style: TextStyle(fontSize: 18),),
-                        Text("4. Watering the seedling.",style: TextStyle(fontSize: 18),),
-                        Text("5. Removing the plant from the pot.",style: TextStyle(fontSize: 18),),
-                        Text("6. Placing the plant in the hole.",style: TextStyle(fontSize: 18),),
-                        Text("7. Covering the roots with soil.",style: TextStyle(fontSize: 18),),
-                        Text("8. Gently packing the soil around the tree.",style: TextStyle(fontSize: 18),),
-                      ],),
-                  ),
-                  Center(
-                    child: InkWell(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return VideoPlayerScreen(videoUrl: value.currentTree.videoUrl);
-                          },
-                        );
-                      },
-                      child: SizedBox(
-                        width: 400,
-                        height: 200,
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(40.0),
-                            child: Image.network(
-                              value.currentTree.videoPreview,
-                              gaplessPlayback: true,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
                         ),
                       ),
                     ),
-                  )
-                ],
+                  );
+                },
               ),
-            ),
+            ],
           ),
         );
       },

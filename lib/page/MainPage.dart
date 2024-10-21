@@ -69,7 +69,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                    Text(value.weatherScreen.region
+                                    Text(value.weatherScreen.name
                                       ,style: const TextStyle(
                                       fontSize: 22,
                                       fontWeight: FontWeight.bold,
@@ -84,7 +84,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                                   ),
                                     textAlign: TextAlign.center,
                                   ),
-                                  Text("${value.weatherScreen.temperatureC} C",style: const TextStyle(
+                                  Text(value.weatherScreen.temperatureC,style: const TextStyle(
                                     fontSize: 32,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.lightGreenAccent,

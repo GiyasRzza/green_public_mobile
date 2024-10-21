@@ -5,7 +5,7 @@ import '../dto/Tree.dart';
 
 class TreeApis {
   static Future<List<Tree>> getTrees() async {
-    String url = "${ServerSideConnection.connectionUrl}/trees?populate=*";
+    String url = "${ServerSideConnection.connectionUrl}/trees?populate=picture,video,store,characteristic_bundle.characteristics,planting_process.process_elements,localizations";
     Map<String, String> headers = {
       "Content-Type": "application/json",
       'Accept-Charset': 'utf-8',
@@ -16,6 +16,11 @@ class TreeApis {
       final Map<String, dynamic> jsonResponse = json.decode(responseBody);
       final List<dynamic> treeData = jsonResponse['data'] ?? jsonResponse['results'];
       List<Tree> trees = treeData.map((data) => Tree.fromJson(data)).toList();
+      trees.forEach((element) {
+        element.plantingProcess?.processElements.forEach((element) {
+          print(element.text);
+        },);
+      },);
       return trees;
     } else {
       print("Error Post From Flutter: ${response.statusCode}, ${response.reasonPhrase}");

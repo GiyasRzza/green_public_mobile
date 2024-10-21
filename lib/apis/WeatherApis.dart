@@ -3,14 +3,14 @@ import 'package:green_public_mobile/dto/Weather.dart';
 import 'package:http/http.dart' as http;
 
 class WeatherApis{
-  static  Future<Weather> getCurrentWeather(String geoLoc,String locale)  async {
-    String url = "${ServerSideConnection.connectionUrl}/weather?geoLoc=$geoLoc,%$locale&locale=en";
+  static  Future<Weather> getCurrentWeather(String latitude,String longitude)  async {
+    String url = "${ServerSideConnection.connectionUrl}/weather/findByCoordinates?latitude=$latitude&longitude=$longitude";
     Map<String, String> headers = {"Content-Type": "application/json",'Accept-Charset': 'utf-8',};
     http.Response response = await http.get(Uri.parse(url),
       headers: headers,);
     if (response.statusCode == 200) {
       String responseBody = response.body;
-      // String decodedResponse = utf8.decode(responseBody.runes.toList());
+      print("hava durumu $latitude,$longitude");
       print(responseBody);
       return Weather.fromJson(responseBody);
     } else {
