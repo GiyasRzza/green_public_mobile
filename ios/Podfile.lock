@@ -2,10 +2,6 @@ PODS:
   - Flutter (1.0.0)
   - geolocator_apple (1.2.0):
     - Flutter
-  - mappable_maps_mapkit_lite (1.0.0):
-    - Flutter
-    - MappableMobile (= 4.7.2-beta4-lite-flutter)
-  - MappableMobile (4.7.2-beta4-lite-flutter)
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -16,27 +12,29 @@ PODS:
     - FlutterMacOS
   - wakelock (0.0.1):
     - Flutter
+  - yandex_maps_mapkit_lite (1.0.0):
+    - Flutter
+    - YandexMapsMobile (= 4.8.1-beta-lite-flutter)
+  - YandexMapsMobile (4.8.1-beta-lite-flutter)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
-  - mappable_maps_mapkit_lite (from `.symlinks/plugins/mappable_maps_mapkit_lite/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/darwin`)
   - wakelock (from `.symlinks/plugins/wakelock/ios`)
+  - yandex_maps_mapkit_lite (from `.symlinks/plugins/yandex_maps_mapkit_lite/ios`)
 
 SPEC REPOS:
   trunk:
-    - MappableMobile
+    - YandexMapsMobile
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
-  mappable_maps_mapkit_lite:
-    :path: ".symlinks/plugins/mappable_maps_mapkit_lite/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
@@ -45,16 +43,18 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/video_player_avfoundation/darwin"
   wakelock:
     :path: ".symlinks/plugins/wakelock/ios"
+  yandex_maps_mapkit_lite:
+    :path: ".symlinks/plugins/yandex_maps_mapkit_lite/ios"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   geolocator_apple: 6cbaf322953988e009e5ecb481f07efece75c450
-  mappable_maps_mapkit_lite: 87a540dbcd3b052686ee62a641752ff5db21eb4f
-  MappableMobile: 2de82930afc17f99851e455b8a4cc9774451dbea
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   video_player_avfoundation: 7c6c11d8470e1675df7397027218274b6d2360b3
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
+  yandex_maps_mapkit_lite: 8d6682ef4d5140cd8131e3406100924e3f299aa1
+  YandexMapsMobile: 946532e718f3a8b005ec29243af87d65bc6e9ec5
 
 PODFILE CHECKSUM: 3ac6882790203ef59c28ed7ff2391a3bd8787087
 

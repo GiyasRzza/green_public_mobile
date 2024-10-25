@@ -280,14 +280,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  mappable_maps_mapkit_lite:
-    dependency: "direct main"
-    description:
-      name: mappable_maps_mapkit_lite
-      sha256: "04c1ee08e9ed723e2559d8bce1489f252426dd3cb1a0a02a6575280def3f1b7f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.7.2-beta4"
   matcher:
     dependency: transitive
     description:
@@ -685,6 +677,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  yandex_maps_mapkit_lite:
+    dependency: "direct main"
+    description:
+      name: yandex_maps_mapkit_lite
+      sha256: "0a57b969bed9a494f6459226db03897fe4f4c02311d3ec15864a911b699115f6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.8.1-beta"
 sdks:
   dart: ">=3.5.0 <4.0.0"
   flutter: ">=3.24.0"

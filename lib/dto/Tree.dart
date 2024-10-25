@@ -20,6 +20,7 @@ class Tree {
   String pictureUrl;
   String videoUrl;
   String videoPreview;
+  String videoName;
 
   Tree({
     required this.id,
@@ -43,6 +44,7 @@ class Tree {
     required this.pictureUrl,
     required this.videoUrl,
     required this.videoPreview,
+    required this.videoName
   });
 
   Tree.empty()
@@ -66,7 +68,8 @@ class Tree {
         bestSeasons = [],
         pictureUrl = '',
         videoUrl = '',
-        videoPreview = '';
+        videoPreview = '',
+        videoName="";
 
   factory Tree.fromJson(Map<String, dynamic> json) {
     final attributes = json['attributes'] ?? {};
@@ -113,6 +116,9 @@ class Tree {
           : '',
       videoPreview: videoData != null && videoData.containsKey('attributes')
           ? videoData['attributes']['previewUrl'] ?? ''
+          : '',
+      videoName: videoData != null && videoData.containsKey('attributes')
+          ? videoData['attributes']['name'] ?? ''
           : '',
     );
   }

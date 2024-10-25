@@ -64,7 +64,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 8.0,bottom: 8.0,right: 8.0,left: 13.0),
+                              padding: const EdgeInsets.only(top: 8.0,bottom: 8.0,left: 13.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -108,14 +108,11 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SizedBox(
-                                    width: 100,
+                                    width: 60,
                                     height: 100,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(20.0),
-                                      child: Image(
-                                        image: value.weatherScreen.weatherConditionIcon.image,
-                                        fit: BoxFit.fill,
-                                      ),
+                                      child: Image.asset("images/cloudy.png",height: 100,width: 100,)
                                     ),
                                   ),
                                   // Text("Change of rain :${value.weatherScreen.precip_mm}"
@@ -161,7 +158,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                             _advicesBottomSheet(context);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 220, left: 40),
+                            padding: const EdgeInsets.only(top: 220, left: 60),
                             child: SizedBox(child: Image.asset("images/Link2.png")),
                           ),
                         ),

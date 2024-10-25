@@ -34,6 +34,27 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                   },
                 ),
               ),
+              Positioned(
+                top: 50,
+                left: 16,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.7),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.arrow_back,
+                      size: 30,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
               DraggableScrollableSheet(
                 initialChildSize: 0.45,
                 minChildSize: 0.3,
@@ -71,7 +92,7 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                                     ),
                                   ),
                                   Text(
-                                    "${value.currentTree.price.toString()} AZN",
+                                    "${value.currentTree.price.toString()} Azn",
                                     style: const TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -79,13 +100,6 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                                     ),
                                   ),
                                 ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10, right: 15, left: 15, bottom: 10),
-                              child: Text(
-                                value.currentTree.description,
-                                overflow: TextOverflow.clip,
                               ),
                             ),
                           Padding(
@@ -97,19 +111,22 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                                   itemCount: value.currentTree.bestSeasons.length,
                                   itemBuilder: (context, index) {
                                     String season = value.currentTree.bestSeasons[index];
-                                    return SizedBox(
-                                      height: 60,
-                                      width: 100,
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            season,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 8.0,),
+                                      child: SizedBox(
+                                        height: 40,
+                                        width: 120,
+                                        child: Card(
+                                          color: Colors.white38.withOpacity(0.5),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(6.0),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              season,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -119,6 +136,13 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                                 ),
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10, right: 15, left: 15, bottom: 10),
+                              child: Text(
+                                value.currentTree.description,
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
                             SingleChildScrollView(
                               child: GridView.builder(
                                 shrinkWrap: true,
@@ -126,9 +150,9 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                                 padding: const EdgeInsets.all(8.0),
                                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  crossAxisSpacing: 10.0,
-                                  mainAxisSpacing: 10.0,
-                                  childAspectRatio: 2,
+                                  // crossAxisSpacing: 10.0,
+                                  // mainAxisSpacing: 10.0,
+                                  childAspectRatio: 3,
                                 ),
                                 itemCount: value.currentTree.characteristicBundle?.characteristics.length ?? 0,
                                 itemBuilder: (context, index) {
@@ -144,7 +168,7 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                                             width: 50,
                                             height: 50,
                                             child: Image.asset(
-                                              "images/Spacing.png",
+                                              "images/$name.png",
                                               fit: BoxFit.fitHeight,
                                             ),
                                           ),
@@ -243,11 +267,20 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                                             shape: BoxShape.circle,
                                           ),
                                           padding: const EdgeInsets.all(8.0),
-                                          child: const Icon(
-                                            Icons.play_arrow,
+                                          child: Image.asset("images/Play.png",height: 60,width: 60,),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 10,
+                                        left: 10,
+                                        right: 10,
+                                        child: Text(
+                                          value.currentTree.videoName,
+                                          style: const TextStyle(
                                             color: Colors.white,
-                                            size: 48.0,
+                                            fontSize: 16,
                                           ),
+                                          textAlign: TextAlign.left,
                                         ),
                                       ),
                                     ],
@@ -255,6 +288,7 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                                 ),
                               ),
                             ),
+
                           ],
                         ),
                       ),

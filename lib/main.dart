@@ -4,7 +4,7 @@ import 'package:green_public_mobile/page/MainPage.dart';
 import 'package:green_public_mobile/provider/StoreProvider.dart';
 import 'package:green_public_mobile/provider/TreeProvider.dart';
 import 'package:green_public_mobile/provider/WeatherProvider.dart';
-import 'package:mappable_maps_mapkit_lite/init.dart' as init;
+import 'package:yandex_maps_mapkit_lite/init.dart' as init;
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
