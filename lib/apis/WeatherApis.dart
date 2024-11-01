@@ -10,7 +10,6 @@ class WeatherApis{
       headers: headers,);
     if (response.statusCode == 200) {
       String responseBody = response.body;
-      print("hava durumu $latitude,$longitude");
       print(responseBody);
       return Weather.fromJson(responseBody);
     } else {

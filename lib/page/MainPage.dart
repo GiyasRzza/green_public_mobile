@@ -24,6 +24,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixin{
   int currentPageIndex = 0;
   @override
+  void initState() {
+    currentPageIndex=0;
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: PreferredSize(preferredSize: const Size.fromHeight(400),

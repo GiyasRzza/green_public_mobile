@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:green_public_mobile/page/MainPage.dart';
+import 'package:green_public_mobile/provider/PlacemarkProvider.dart';
 import 'package:green_public_mobile/provider/StoreProvider.dart';
 import 'package:green_public_mobile/provider/TreeProvider.dart';
 import 'package:green_public_mobile/provider/WeatherProvider.dart';
@@ -10,7 +11,7 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init.initMapkit(
-      apiKey: 'pk_yaZBUVpudIkqBnOmAaljgzwLjfRSSWjEncXLesvEfRYYnLBqIuVlQOOmemlJNHsN'
+      apiKey: 'pk_WSVzAEZzqvWXnmCfWXsWKkXiSMIEXAuapaUCBQSlbtQcJRCHYvvBTEqerdzkAlBZ'
   );
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => WeatherProvider()),
         ChangeNotifierProvider(create: (_) => TreeProvider()),
         ChangeNotifierProvider(create: (_) =>StoreProvider()),
+        ChangeNotifierProvider(create: (_) =>PlacemarkProvider()),
       ],
       child: MaterialApp(
         title: 'Green Public',

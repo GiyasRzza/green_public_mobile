@@ -5,7 +5,7 @@ import '../dto/Tree.dart';
 
 class TreeApis {
   static Future<List<Tree>> getTrees() async {
-    String url = "${ServerSideConnection.connectionUrl}/trees?populate=picture,video,store,characteristic_bundle.characteristics,planting_process.process_elements,localizations";
+    String url = "${ServerSideConnection.connectionUrl}/trees?populate[characteristic_bundle][populate]=*&populate[planting_process][populate]=*";
     Map<String, String> headers = {
       "Content-Type": "application/json",
       'Accept-Charset': 'utf-8',

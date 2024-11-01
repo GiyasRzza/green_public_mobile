@@ -56,8 +56,6 @@
         <key>NSAllowsArbitraryLoads</key>
         <true/>
     </dict>
-    <key>IOGLPerfMode</key>
-    <false/>
 </dict>
 
 </plist>

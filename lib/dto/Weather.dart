@@ -40,7 +40,7 @@ class StoredWeatherData {
 class Weather {
   final String city;
   final LiveWeather liveWeather;
-  final StoredWeatherData storedWeatherData;
+  final List<StoredWeatherData> storedWeatherData;
 
   Weather({
     required this.city,
@@ -52,7 +52,8 @@ class Weather {
     final Map<String, dynamic> json = jsonDecode(jsonString);
 
     final liveWeather = LiveWeather.fromJson(json['liveWeather'] ?? {});
-    final storedWeatherData = StoredWeatherData.fromJson(json['storedWeatherData'] ?? {});
+    final storedWeatherDataList = json['storedWeatherData'] as List<dynamic>? ?? [];
+    final storedWeatherData = storedWeatherDataList.map((data) => StoredWeatherData.fromJson(data)).toList();
 
     return Weather(
       city: json['city'] ?? 'Unknown',

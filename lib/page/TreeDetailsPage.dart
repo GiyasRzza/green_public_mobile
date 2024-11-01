@@ -182,14 +182,14 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                                                 name,
                                                 style: const TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 16,
+                                                  fontSize: 15,
                                                 ),
                                               ),
                                               Text(
                                                 data!.value,
                                                 style: const TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 16,
+                                                  fontSize: 15,
                                                 ),
                                               ),
                                             ],

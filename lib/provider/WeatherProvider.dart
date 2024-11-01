@@ -20,8 +20,6 @@ class WeatherProvider extends ChangeNotifier {
     }
     if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
       var location = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      print(location.longitude);
-      print(location.latitude);
       getCurrentWeather(location.latitude.toString(), location.longitude.toString());
     } else {
       print("User denied permission to access device location.");
@@ -41,7 +39,7 @@ class WeatherProvider extends ChangeNotifier {
     try {
       Weather weather = await WeatherApis.getCurrentWeather(latitude, longitude);
       weatherScreen.name = weather.city;
-      weatherScreen.greeting = weather.storedWeatherData.greeting;
+      weatherScreen.greeting = weather.storedWeatherData[0].greeting;
       weatherScreen.temperatureC = formatTemperature(weather.liveWeather.temperature);
       weatherScreen.weatherConditionText=weather.liveWeather.condition;
       weatherScreen.localDateTime = formatLocalTime(DateTime.now().toString());
