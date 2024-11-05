@@ -46,7 +46,7 @@ class PlacemarkProvider extends ChangeNotifier {
           element.publishedAt = "$km km";
         }
       } else {
-        print("Location hala null!");
+        print("Location null!");
       }
     }
     notifyListeners();
@@ -95,7 +95,6 @@ class PlacemarkProvider extends ChangeNotifier {
     if (location == null) {
       return 0.0;
     }
-
     Point first = Point(latitude: location!.latitude, longitude: location!.longitude);
     List<Point> points = [first, second];
     final polylineIndex = PolylineUtils.createPolylineIndex(mapkit_geometry_geometry.Polyline(points));

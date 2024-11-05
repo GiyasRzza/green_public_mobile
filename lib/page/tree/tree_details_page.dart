@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:green_public_mobile/provider/TreeProvider.dart';
 
-import 'VideoPlayerScreen.dart';
+import '../video/video_player_page.dart';
 
 class TreeDetailsPage extends StatefulWidget {
   const TreeDetailsPage({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                     return Transform.scale(
                       scale: 1,
                       child: Image.network(
-                        value.currentTree.pictureUrl,
+                        value.currentTree.picture.url,
                         fit: BoxFit.cover,
                       ),
                     );
@@ -241,7 +241,7 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return VideoPlayerScreen(videoUrl: value.currentTree.videoUrl);
+                                      return VideoPlayerScreen(videoUrl: value.currentTree.video.url);
                                     },
                                   );
                                 },
@@ -253,7 +253,7 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(20.0),
                                         child: Image.network(
-                                          value.currentTree.videoPreview,
+                                          value.currentTree.video.previewUrl!,
                                           gaplessPlayback: true,
                                           fit: BoxFit.fill,
                                           width: double.infinity,
@@ -275,7 +275,7 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                                         left: 10,
                                         right: 10,
                                         child: Text(
-                                          value.currentTree.videoName,
+                                          value.currentTree.video.name,
                                           style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 16,

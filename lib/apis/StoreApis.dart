@@ -6,7 +6,7 @@ import '../dto/Store.dart';
 
 class StoreApis{
   static  Future<List<Store>> getStores()  async {
-    String url = "${ServerSideConnection.connectionUrl}/stores?populate[products][populate]=image&populate[trees][populate]=picture";
+    String url = "${ServerSideConnection.connectionUrl}/stores?populate[products][populate]=image&populate[trees][populate]=picture&populate[coverPhoto]=true&populate[profilePhoto]=true";
     Map<String, String> headers = {"Content-Type": "application/json",'Accept-Charset': 'utf-8',};
     http.Response response = await http.get(Uri.parse(url),
       headers: headers,);

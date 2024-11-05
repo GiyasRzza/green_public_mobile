@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:green_public_mobile/page/MainPage.dart';
+import 'package:green_public_mobile/page/main/main_page.dart';
 import 'package:green_public_mobile/provider/PlacemarkProvider.dart';
 import 'package:green_public_mobile/provider/StoreProvider.dart';
 import 'package:green_public_mobile/provider/TreeProvider.dart';

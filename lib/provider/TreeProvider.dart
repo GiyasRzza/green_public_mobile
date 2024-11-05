@@ -28,7 +28,7 @@ class TreeProvider extends ChangeNotifier{
    List<Tree> trees=await treeFutureList;
     for (var element in trees) {
       treeImageFutureList.then((value) => value.add(TreeImage(element.id, element.name,
-          getCloudImage(element.pictureUrl), element.description,element.videoUrl,getCloudImage(element.videoPreview))));
+          getCloudImage(element.picture.url), element.description,element.video.url,getCloudImage(element.video.previewUrl!),element.price)));
     }
     return treeImageFutureList;
   }
@@ -39,8 +39,8 @@ class TreeProvider extends ChangeNotifier{
     List<TreeVideo> treeVideoList = [];
 
     for (var element in trees) {
-      if (element.videoUrl.isNotEmpty) {
-        TreeVideo treeVideo = TreeVideo(element.videoUrl, element.videoPreview);
+      if (element.video.previewUrl!.isNotEmpty) {
+        TreeVideo treeVideo = TreeVideo(element.video.url, element.video.previewUrl!);
         treeVideoList.add(treeVideo);
       }
     }

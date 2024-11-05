@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flutter;
-import 'package:green_public_mobile/page/MainPage.dart';
 import 'package:provider/provider.dart';
 import 'package:yandex_maps_mapkit_lite/mapkit.dart';
 import 'package:yandex_maps_mapkit_lite/yandex_map.dart';
@@ -9,7 +8,8 @@ import 'package:yandex_maps_mapkit_lite/mapkit.dart' as mapkit;
 import 'package:yandex_maps_mapkit_lite/src/bindings/image/image_provider.dart' as image_provider;
 import 'package:yandex_maps_mapkit_lite/src/mapkit/animation.dart'
 as mapkit_animation;
-import '../provider/PlacemarkProvider.dart';
+import '../../core/MapIconOnTap.dart';
+import '../../provider/PlacemarkProvider.dart';
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
 
@@ -17,9 +17,10 @@ class MapPage extends StatefulWidget {
   State<MapPage> createState() => _MapPageState();
 }
 
-class _MapPageState extends State<MapPage> {
+class _MapPageState extends State<MapPage>{
   final TextEditingController _searchController = TextEditingController();
   mapkit.MapWindow? _mapWindow;
+
   int currentPageIndex = 2;
 
   @override
@@ -57,39 +58,46 @@ class _MapPageState extends State<MapPage> {
       print("Map window not initialized.");
       return;
     }
-    final cameraCallback = MapCameraCallback(onMoveFinished: (isFinished) {
-    });
+
+    final listener = MapObjectTapListenerImpl(context);
+    final cameraCallback = MapCameraCallback(onMoveFinished: (isFinished) {});
     final provider = Provider.of<PlacemarkProvider>(context, listen: false);
     final placemarks = provider.placemarks;
+
     if (placemarks.isNotEmpty) {
       final selectedPlacemark = placemarks.first;
       final latitude = selectedPlacemark.latitude;
       final longitude = selectedPlacemark.longitude;
-      _mapWindow?.map.mapObjects.addPlacemark()
-        ?..geometry = mapkit.Point(latitude: latitude, longitude: longitude)
-        ..setIconWithStyle(image_provider.ImageProvider.fromImageProvider(const AssetImage("images/pin.png"),)
-        ,IconStyle(
-                anchor: math.Point(1.0, 1.0),
-                scale: 2.0,
-                zIndex: 1.0
 
-            )
-        );
-      _mapWindow?.map.moveWithAnimation(
-          CameraPosition(
-            Point(latitude: latitude, longitude: longitude),
-            zoom: 20.0,
-            azimuth: 0.0,
-            tilt: 0.0,
+  final  placemark=  _mapWindow?.map.mapObjects.addPlacemark()
+        ?..geometry = mapkit.Point(latitude: latitude, longitude: longitude)
+        ..visible=true
+        ..setIconWithStyle(
+          image_provider.ImageProvider.fromImageProvider(const AssetImage("images/pin.png")),
+          const IconStyle(
+            anchor: math.Point(1.0, 1.0),
+            scale: 5.0,
+            zIndex: 1.0,
           ),
-          const mapkit_animation.Animation(AnimationType.Linear, duration: 1.0),
-          cameraCallback: cameraCallback
+        )
+
+      ;
+      _mapWindow?.map.moveWithAnimation(
+        CameraPosition(
+          Point(latitude: latitude, longitude: longitude),
+          zoom: 20.0,
+          azimuth: 0.0,
+          tilt: 0.0,
+          
+        ),
+        const mapkit_animation.Animation(AnimationType.Linear, duration: 1.0),
+        cameraCallback: cameraCallback,
       );
+      placemark?.addTapListener(listener);
     } else {
       print("No placemarks found for the search query.");
     }
   }
-
   moveCamera(){
     final provider = Provider.of<PlacemarkProvider>(context, listen: false);
     final location = provider.location;
@@ -203,10 +211,7 @@ class _MapPageState extends State<MapPage> {
             currentPageIndex = index;
           });
           if (index == 0) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MainPage())
-            );
+            Navigator.pop(context);
           }
         },
         indicatorColor: Colors.green,
@@ -236,4 +241,5 @@ class _MapPageState extends State<MapPage> {
       ),
     );
   }
+
 }
