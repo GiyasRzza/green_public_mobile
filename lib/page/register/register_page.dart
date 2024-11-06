@@ -74,13 +74,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 ElevatedButton(
                   onPressed: () {
                     if(value.selectedCount==1){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpPersonScreen(),));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>  SignUpPersonScreen(),));
                     }
                     if(value.selectedCount==2){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpCompanyScreen(),));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>  SignUpCompanyScreen(),));
                     }
                     if(value.selectedCount==3){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpNGOScreen(),));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>  SignUpNGOScreen(),));
                     }
                   },
                   style: ElevatedButton.styleFrom(

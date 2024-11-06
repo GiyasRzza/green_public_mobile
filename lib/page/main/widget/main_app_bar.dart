@@ -62,7 +62,7 @@ class _MainAppBarState extends State<MainAppBar> {
                             children: [
                               Text(value.weatherScreen.name
                                 ,style: const TextStyle(
-                                  fontSize: 22,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
@@ -76,7 +76,7 @@ class _MainAppBarState extends State<MainAppBar> {
                                 textAlign: TextAlign.center,
                               ),
                               Text(value.weatherScreen.temperatureC,style: const TextStyle(
-                                fontSize: 32,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.lightGreenAccent,
                               ),
@@ -99,8 +99,8 @@ class _MainAppBarState extends State<MainAppBar> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SizedBox(
-                                width: 60,
-                                height: 100,
+                                width: 50,
+                                height: 50,
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20.0),
                                     child: Image.asset("images/cloudy.png",height: 100,width: 100,)
