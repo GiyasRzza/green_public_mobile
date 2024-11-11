@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../map/map_page.dart';
+import '../../register/profile_page.dart';
 import '../../register/register_page.dart';
 class MainBottomNavigationBar extends StatefulWidget {
   const MainBottomNavigationBar({super.key});
@@ -33,7 +34,7 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
         if (index == 4) {
           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const RegisterPage())
+              MaterialPageRoute(builder: (context) => const ProfilePage())
           );
         }
       },
