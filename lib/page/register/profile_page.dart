@@ -1,183 +1,253 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:green_public_mobile/page/main/widget/main_bottom_navigation_bar.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import '../../provider/TreeProvider.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        backgroundColor: Colors.green[900],
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {},
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings, color: Colors.white),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Container(
-            color: Colors.green[900],
-            child: const Column(
-              children: [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Gunel Zakieva',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10),
-              ],
-            ),
-          ),
-          SizedBox(height: 20),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: TabBarWidget(),
-          ),
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return TreeItemWidget();
-              },
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle, size: 40),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.event),
-            label: 'Create event',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: 4,
-        selectedItemColor: Colors.black,
-        onTap: (index) {},
-      ),
-    );
-  }
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class TabBarWidget extends StatelessWidget {
+class _ProfilePageState extends State<ProfilePage> {
+  File? _image;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Column(
-        children: [
-          TabBar(
-            indicatorColor: Colors.green,
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.grey,
-            tabs: [
-              Tab(text: 'Planted trees'),
-              Tab(text: 'Donations'),
-              Tab(text: 'Gifts'),
+    return Consumer<TreeProvider>(
+      builder: (BuildContext context, TreeProvider value, Widget? child) {
+        return Scaffold(
+          body: Stack(
+            children: [
+              // Background color
+              Container(color: const Color(0xFF3A5A40)),
+              Positioned(
+                top: 70,
+                left: 0,
+                right: 0,
+                child: Column(
+                  children: [
+                    Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 2,
+                            ),
+                          ),
+                          child: CircleAvatar(
+                            radius: 60,
+                            backgroundColor: Colors.grey[200],
+                            foregroundColor: Colors.white,
+                            backgroundImage:
+                                _image != null ? FileImage(_image!) : null,
+                            child: _image == null
+                                ? const Icon(Icons.account_circle,
+                                    color: Colors.grey, size: 40)
+                                : null,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 4,
+                          right: 4,
+                          child: GestureDetector(
+                            onTap: _pickImage,
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.grey.shade400,
+                                  width: 2,
+                                ),
+                              ),
+                              child: const Icon(Icons.edit, size: 20),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      "Qiyas Rayev",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 50,
+                right: 16,
+                child: GestureDetector(
+                  onTap: () {
+                    // Navigate to settings
+                  },
+                  child: const Icon(
+                    Icons.settings,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              DraggableScrollableSheet(
+                initialChildSize: 0.75,
+                minChildSize: 0.75,
+                maxChildSize: 0.75,
+                builder: (context, scrollController) {
+                  return Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            top: 30,
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.56666,
+                              child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemCount: 10,
+                                itemBuilder: (context, index) {
+                                  return Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                                    child: const ListTile(
+                                      contentPadding: EdgeInsets.all(12),
+                                      leading: CircleAvatar(
+                                        backgroundColor: Color(0xFF3A5A40),
+                                        child: Icon(Icons.card_giftcard, color: Colors.white),
+                                      ),
+                                      title: Text("Gifted tree"),
+                                      subtitle: Text("From: Nature Lovers"),
+                                      trailing: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text("03.04.2024"),
+                                          SizedBox(height: 4),
+                                          Icon(Icons.access_time, color: Colors.grey),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 5,
+                            left: 5,
+                            right: 5,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              height: 75,
+                              width: 400,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 3),
+                                    decoration: BoxDecoration(
+                                      // color: Colors.white,
+                                      borderRadius: BorderRadius.circular(40),
+                                      boxShadow: [
+                                        // BoxShadow(
+                                        //   color: Colors.grey.withOpacity(0.3),
+                                        //   spreadRadius: 2,
+                                        //   blurRadius: 6,
+                                        //   offset: const Offset(0, 3),
+                                        // ),
+                                      ],
+                                    ),
+                                    height: 65,
+                                    width: 140,
+                                    child: const Center(child: Text("Planted Tree")),
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      // color: Colors.white,
+                                      borderRadius: BorderRadius.circular(40),
+                                      boxShadow: [
+                                        // BoxShadow(
+                                        //   color: Colors.grey.withOpacity(0.3),
+                                        //   spreadRadius: 2,
+                                        //   blurRadius: 6,
+                                        //   offset: const Offset(0, 3),
+                                        // ),
+                                      ],
+                                    ),
+                                    height: 65,
+                                    width: 120,
+                                    child: const Center(child: Text("Donations")),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 3),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(40),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.3),
+                                          spreadRadius: 2,
+                                          blurRadius: 6,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ],
+                                    ),
+                                    height: 65,
+                                    width: 120,
+                                    child: const Center(child: Text("Gifts")),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              )
             ],
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class TreeItemWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(Icons.park, color: Colors.green, size: 30),
-            ),
-            SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Oak tree',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'Hesen Official Ekoloji Park',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Icon(Icons.park, color: Colors.green, size: 16),
-                      SizedBox(width: 4),
-                      Text('100'),
-                      SizedBox(width: 16),
-                      Icon(Icons.people, color: Colors.green, size: 16),
-                      SizedBox(width: 4),
-                      Text('50'),
-                      SizedBox(width: 16),
-                      Icon(Icons.access_time, color: Colors.green, size: 16),
-                      SizedBox(width: 4),
-                      Text('03.04.2024'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+          bottomNavigationBar: const MainBottomNavigationBar(),
+        );
+      },
     );
   }
 }
