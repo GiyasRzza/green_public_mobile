@@ -43,6 +43,7 @@ dependencies:
   video_player: ^2.8.6
   flick_video_player: ^0.7.0
   gif: ^2.3.0
+  quick_actions: ^1.0.8
 #  mappable_maps_mapkit_lite: ^4.7.2-beta4
   yandex_maps_mapkit_lite: ^4.8.2-beta
   image_picker: ^1.1.2

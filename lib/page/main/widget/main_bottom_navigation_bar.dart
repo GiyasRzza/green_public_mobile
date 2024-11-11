@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:green_public_mobile/page/donation/donation_page.dart';
 import 'package:green_public_mobile/page/register/sign_in_page.dart';
 import '../../map/map_page.dart';
 
@@ -11,8 +12,12 @@ class MainBottomNavigationBar extends StatefulWidget {
 
 class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
   int currentPageIndex = 0;
-
+  bool isMenuOpen = false;
   void _showFloatingMenu() {
+    setState(() {
+      isMenuOpen = true;
+    });
+
     showDialog(
       context: context,
       builder: (context) {
@@ -24,7 +29,10 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildMenuItem(Icons.favorite, "Make a donation"),
+                  GestureDetector(child: _buildMenuItem(Icons.favorite, "Make a donation"), onTap: () =>  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const DonationPage())
+                  ),),
                   const SizedBox(height: 10),
                   _buildMenuItem(Icons.card_giftcard, "Give a tree as gift"),
                   CustomPaint(
@@ -40,8 +48,13 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
           ],
         );
       },
-    );
+    ).then((_) {
+      setState(() {
+        isMenuOpen = false;
+      });
+    });
   }
+
   Widget _buildMenuItem(IconData icon, String label) {
     return Material(
       elevation: 4,
@@ -97,28 +110,32 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
       },
       indicatorColor: Colors.transparent,
       selectedIndex: currentPageIndex,
-      destinations: const <Widget>[
-        NavigationDestination(
+      destinations: <Widget>[
+        const NavigationDestination(
           selectedIcon: ImageIcon(AssetImage("images/HomeS.png")),
           icon: ImageIcon(AssetImage("images/Home.png")),
           label: "Home",
         ),
-        NavigationDestination(
+        const NavigationDestination(
           selectedIcon: ImageIcon(AssetImage("images/LocationS.png")),
           icon: ImageIcon(AssetImage("images/Location.png")),
           label: 'Map',
         ),
         NavigationDestination(
-          selectedIcon: Icon(Icons.cancel_sharp, color: Colors.black, size: 60),
-          icon: Icon(Icons.add_circle, color: Colors.black, size: 60),
+          selectedIcon: isMenuOpen
+              ? const Icon(Icons.cancel_sharp, color: Colors.black, size: 60)
+              : const Icon(Icons.add_circle, color: Colors.black, size: 60),
+          icon: isMenuOpen
+              ? const Icon(Icons.cancel_sharp, color: Colors.black, size: 60)
+              : const Icon(Icons.add_circle, color: Colors.black, size: 60),
           label: '',
         ),
-        NavigationDestination(
+        const NavigationDestination(
           selectedIcon: ImageIcon(AssetImage("images/EventS.png")),
           icon: ImageIcon(AssetImage("images/Event.png")),
           label: 'Event',
         ),
-        NavigationDestination(
+        const NavigationDestination(
           selectedIcon: ImageIcon(AssetImage("images/ProfileS.png")),
           icon: ImageIcon(AssetImage("images/Profile.png")),
           label: 'Profile',
