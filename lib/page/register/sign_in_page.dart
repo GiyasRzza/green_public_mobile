@@ -1,9 +1,54 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 import 'package:green_public_mobile/page/register/profile_page.dart';
 import 'package:green_public_mobile/page/register/register_page.dart';
 
-class SignInPage extends StatelessWidget {
-  const SignInPage({super.key});
+class SignInPage extends StatefulWidget {
+  const SignInPage({Key? key}) : super(key: key);
+
+  @override
+  _SignInPageState createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> login() async {
+    const url = 'http://37.60.230.124/api/auth/local';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {'accept': 'application/json', 'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'identifier': _emailController.text,
+        'password': _passwordController.text,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+    } else {
+      if (kDebugMode) {
+        print(response.body);
+      }
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Login Failed'),
+          content: Text('Error: ${response.body}'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +80,18 @@ class SignInPage extends StatelessWidget {
                   style: TextStyle(color: Colors.grey[600]),
                 ),
                 const SizedBox(height: 24),
-                const TextField(
-                  decoration: InputDecoration(
+                TextField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
                     labelText: "E-mail address",
                     border: OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 16),
-                const TextField(
+                TextField(
+                  controller: _passwordController,
                   obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Password",
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(Icons.visibility),
@@ -74,22 +121,21 @@ class SignInPage extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>   ProfilePage(),));
-                    },
+                    onPressed: login,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text("Confirm",style: TextStyle(
-                      color: Colors.white
-                    ),),
+                    child: const Text(
+                      "Confirm",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  const RegisterPage(),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
                   },
                   child: const Padding(
                     padding: EdgeInsets.only(top: 16),

@@ -32,7 +32,6 @@ class _ProfilePageState extends State<ProfilePage> {
         return Scaffold(
           body: Stack(
             children: [
-              // Background color
               Container(color: const Color(0xFF3A5A40)),
               Positioned(
                 top: 70,
@@ -66,8 +65,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Positioned(
-                          bottom: 4,
-                          right: 4,
+                          bottom: -1,
+                          right: -1,
                           child: GestureDetector(
                             onTap: _pickImage,
                             child: Container(
@@ -78,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 shape: BoxShape.circle,
                                 border: Border.all(
                                   color: Colors.grey.shade400,
-                                  width: 2,
+                                  width: 3,
                                 ),
                               ),
                               child: const Icon(Icons.edit, size: 20),
@@ -104,10 +103,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 right: 16,
                 child: GestureDetector(
                   onTap: () {
-                    // Navigate to settings
                   },
                   child: const Icon(
-                    Icons.settings,
+                    Icons.settings_outlined,
                     size: 30,
                     color: Colors.white,
                   ),
@@ -185,7 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     decoration: BoxDecoration(
                                       // color: Colors.white,
                                       borderRadius: BorderRadius.circular(40),
-                                      boxShadow: [
+                                      boxShadow: const [
                                         // BoxShadow(
                                         //   color: Colors.grey.withOpacity(0.3),
                                         //   spreadRadius: 2,
@@ -202,7 +200,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     decoration: BoxDecoration(
                                       // color: Colors.white,
                                       borderRadius: BorderRadius.circular(40),
-                                      boxShadow: [
+                                      boxShadow: const [
                                         // BoxShadow(
                                         //   color: Colors.grey.withOpacity(0.3),
                                         //   spreadRadius: 2,
