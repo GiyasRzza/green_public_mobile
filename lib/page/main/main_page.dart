@@ -14,7 +14,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: const PreferredSize(preferredSize: Size.fromHeight(400),
+      appBar: const PreferredSize(preferredSize: Size.fromHeight(350),
       child: MainAppBar()),
       body: const MainBody(),
       bottomNavigationBar: MainBottomNavigationBar(currentPageIndex: 0,),

@@ -44,12 +44,12 @@ class _MainBodyState extends State<MainBody> {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 12.0),
+                    padding: const EdgeInsets.only(top: 10.0),
                     child: SizedBox(
                       height: 130,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 3,
+                        itemCount: 4,
                         itemBuilder: (BuildContext context, int index) {
                           return Card(
                             shape: RoundedRectangleBorder(
@@ -106,7 +106,6 @@ class _MainBodyState extends State<MainBody> {
                 ],
               ),
             ),
-            // Advices Bölümü
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
