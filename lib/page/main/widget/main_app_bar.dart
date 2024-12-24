@@ -127,12 +127,21 @@ class _MainAppBarState extends State<MainAppBar> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 65.0, left: 10),
-                  child: SizedBox(child: flutter.Image.asset("images/welcome.png")),
+                  padding: const EdgeInsets.only(top: 55.0, left: 30),
+                  child: Text(value.weatherScreen.greeting,style:
+                    const flutter.TextStyle(
+                      color: Colors.white,
+                      fontSize: 26,
+                      fontWeight: flutter.FontWeight.bold
+                    ),),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: SizedBox(child: flutter.Image.asset("images/text.png")),
+                  padding: const EdgeInsets.only(left: 30),
+                  child: Text(value.weatherScreen.greetingDescription,style: const flutter.TextStyle(
+                      color: Colors.white70,
+                      fontSize: 16,
+
+                  ),),
                 ),
                 // Row(
                 //   children: [

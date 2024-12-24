@@ -6,12 +6,13 @@ class WeatherScreen{
  late String region="Baku";
  late String localDateTime="";
  late String weatherConditionText="Sunny";
+ late String greetingDescription="";
  late Image weatherConditionIcon=Image.asset("images/sunny default icon.jpeg");
  late String temperatureC="20";
  late String precip_mm="";
 
  WeatherScreen(this.greeting, this.name, this.region, this.localDateTime,
-      this.weatherConditionText, this.weatherConditionIcon,this.temperatureC,this.precip_mm);
+      this.weatherConditionText, this.weatherConditionIcon,this.temperatureC,this.precip_mm,this.greetingDescription);
 
  WeatherScreen.empty();
 }

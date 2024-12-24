@@ -44,6 +44,7 @@ class WeatherProvider extends ChangeNotifier {
       weatherScreen.weatherConditionText=weather.liveWeather.condition;
       weatherScreen.localDateTime = formatLocalTime(DateTime.now().toString());
       weatherScreen.weatherConditionIcon = getCloudImage("https://example.com/weather_icon.png");
+      weatherScreen.greetingDescription=weather.storedWeatherData[0].greetingDescription;
       print(weatherScreen.localDateTime);
       notifyListeners();
     } catch (e) {
