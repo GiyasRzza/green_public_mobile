@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:green_public_mobile/page/main/main_page.dart';
+import 'package:green_public_mobile/page/first/first_page.dart';
 import 'package:green_public_mobile/page/map/map_page.dart';
 import 'package:green_public_mobile/page/register/profile_page.dart';
 import 'package:green_public_mobile/page/register/register_page.dart';
@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Future.delayed(const Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MainPage()),
+        MaterialPageRoute(builder: (context) => const FirstPage()),
       );
     });
   }

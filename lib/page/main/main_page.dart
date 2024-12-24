@@ -13,11 +13,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
-    return  const Scaffold(
-      appBar: PreferredSize(preferredSize: Size.fromHeight(400),
+    return  Scaffold(
+      appBar: const PreferredSize(preferredSize: Size.fromHeight(400),
       child: MainAppBar()),
-      body: MainBody(),
-      bottomNavigationBar: MainBottomNavigationBar(),
+      body: const MainBody(),
+      bottomNavigationBar: MainBottomNavigationBar(currentPageIndex: 0,),
     );
   }
 }

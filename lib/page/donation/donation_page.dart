@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:green_public_mobile/page/donation/widget/donation_success_dialog.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class DonationPage extends StatefulWidget {
   const DonationPage({super.key});
@@ -10,9 +12,28 @@ class DonationPage extends StatefulWidget {
 
 class _DonationPageState extends State<DonationPage> {
   String? selectedNGO;
-  String? plantingInterval;
+  List<dynamic> ngoList = [];
   final TextEditingController amountController = TextEditingController();
   int totalPrice = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchNGOs();
+  }
+
+  Future<void> fetchNGOs() async {
+    const url = 'http://37.60.230.124/api/users?filters[type][\$eq]=NGO&fields[0]=id&fields[1]=name';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      setState(() {
+        ngoList = json.decode(response.body);
+      });
+    } else {
+      throw Exception('Failed to load NGOs');
+    }
+  }
 
   void calculateTotalPrice() {
     setState(() {
@@ -57,9 +78,12 @@ class _DonationPageState extends State<DonationPage> {
                   selectedNGO = value;
                 });
               },
-              items: ['NGO 1', 'NGO 2', 'NGO 3']
-                  .map((ngo) => DropdownMenuItem(value: ngo, child: Text(ngo)))
-                  .toList(),
+              items: ngoList.map<DropdownMenuItem<String>>((ngo) {
+                return DropdownMenuItem<String>(
+                  value: ngo['id'].toString(),
+                  child: Text(ngo['name']),
+                );
+              }).toList(),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -82,7 +106,6 @@ class _DonationPageState extends State<DonationPage> {
               ),
               onChanged: (value) => calculateTotalPrice(),
             ),
-
             const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,7 +116,7 @@ class _DonationPageState extends State<DonationPage> {
                 ),
                 Text(
                   '$totalPrice\$',
-                  style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -107,7 +130,7 @@ class _DonationPageState extends State<DonationPage> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return DonationSuccessDialog();
+                        return const DonationSuccessDialog();
                       },
                     );
                   },

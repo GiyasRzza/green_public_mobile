@@ -13,8 +13,8 @@ class Tree {
   final String documentId;
   final CharacteristicBundle characteristicBundle;
   final PlantingProcess plantingProcess;
-  final Video video;
   final Picture picture;
+
   Tree.empty()
       : id = 0,
         name = '',
@@ -30,7 +30,6 @@ class Tree {
         documentId = '',
         characteristicBundle = CharacteristicBundle.empty(),
         plantingProcess = PlantingProcess.empty(),
-        video = Video.empty(),
         picture = Picture.empty();
 
   Tree({
@@ -48,7 +47,6 @@ class Tree {
     required this.documentId,
     required this.characteristicBundle,
     required this.plantingProcess,
-    required this.video,
     required this.picture,
   });
 
@@ -66,9 +64,9 @@ class Tree {
       publishedAt: json['publishedAt'],
       locale: json['locale'],
       documentId: json['documentId'],
-      characteristicBundle: CharacteristicBundle.fromJson(json['characteristic_bundle']),
+      characteristicBundle:
+      CharacteristicBundle.fromJson(json['characteristic_bundle']),
       plantingProcess: PlantingProcess.fromJson(json['planting_process']),
-      video: Video.fromJson(json['video']),
       picture: Picture.fromJson(json['picture']),
     );
   }
@@ -82,6 +80,7 @@ class CharacteristicBundle {
   final String publishedAt;
   final String documentId;
   final List<Characteristic> characteristics;
+
   CharacteristicBundle.empty()
       : id = 0,
         name = '',
@@ -90,6 +89,7 @@ class CharacteristicBundle {
         publishedAt = '',
         documentId = '',
         characteristics = [];
+
   CharacteristicBundle({
     required this.id,
     required this.name,
@@ -108,7 +108,9 @@ class CharacteristicBundle {
       updatedAt: json['updatedAt'],
       publishedAt: json['publishedAt'],
       documentId: json['documentId'],
-      characteristics: List<Characteristic>.from(json['characteristics'].map((x) => Characteristic.fromJson(x))),
+      characteristics: List<Characteristic>.from(
+        json['characteristics'].map((x) => Characteristic.fromJson(x)),
+      ),
     );
   }
 }
@@ -153,6 +155,7 @@ class PlantingProcess {
   final String publishedAt;
   final String documentId;
   final List<ProcessElement> processElements;
+
   PlantingProcess.empty()
       : id = 0,
         header = '',
@@ -161,6 +164,7 @@ class PlantingProcess {
         publishedAt = '',
         documentId = '',
         processElements = [];
+
   PlantingProcess({
     required this.id,
     required this.header,
@@ -179,7 +183,9 @@ class PlantingProcess {
       updatedAt: json['updatedAt'],
       publishedAt: json['publishedAt'],
       documentId: json['documentId'],
-      processElements: List<ProcessElement>.from(json['process_elements'].map((x) => ProcessElement.fromJson(x))),
+      processElements: List<ProcessElement>.from(
+        json['process_elements'].map((x) => ProcessElement.fromJson(x)),
+      ),
     );
   }
 }
@@ -191,6 +197,7 @@ class ProcessElement {
   final String updatedAt;
   final String publishedAt;
   final String documentId;
+
   ProcessElement.empty()
       : id = 0,
         text = '',
@@ -220,86 +227,6 @@ class ProcessElement {
   }
 }
 
-class Video {
-  final int id;
-  final String name;
-  final String? alternativeText;
-  final String? caption;
-  final int? width;
-  final int? height;
-  final String hash;
-  final String ext;
-  final String mime;
-  final double size;
-  final String url;
-  final String? previewUrl;
-  final String provider;
-  final String createdAt;
-  final String updatedAt;
-  final String documentId;
-  final String publishedAt;
-  Video.empty()
-      : id = 0,
-        name = '',
-        alternativeText = '',
-        caption = '',
-        width = 0,
-        height = 0,
-        hash = '',
-        ext = '',
-        mime = '',
-        size = 0.0,
-        url = '',
-        previewUrl = '',
-        provider = '',
-        createdAt = '',
-        updatedAt = '',
-        documentId = '',
-        publishedAt = '';
-  Video({
-    required this.id,
-    required this.name,
-    this.alternativeText,
-    this.caption,
-    this.width,
-    this.height,
-    required this.hash,
-    required this.ext,
-    required this.mime,
-    required this.size,
-    required this.url,
-    this.previewUrl,
-    required this.provider,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.documentId,
-    required this.publishedAt,
-  });
-
-  factory Video.fromJson(Map<String, dynamic> json) {
-    return Video(
-      id: json['id'],
-      name: json['name'],
-      alternativeText: json['alternativeText'],
-      caption: json['caption'],
-      width: json['width'],
-      height: json['height'],
-      hash: json['hash'],
-      ext: json['ext'],
-      mime: json['mime'],
-      size: json['size'].toDouble(),
-      url: json['url'],
-      previewUrl: json['previewUrl'],
-      provider: json['provider'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      documentId: json['documentId'],
-      publishedAt: json['publishedAt'],
-    );
-  }
-}
-
-
 class Picture {
   final int id;
   final String name;
@@ -318,11 +245,12 @@ class Picture {
   final String updatedAt;
   final String documentId;
   final String publishedAt;
+
   Picture.empty()
       : id = 0,
         name = '',
-        alternativeText = '',
-        caption = '',
+        alternativeText = null,
+        caption = null,
         width = 0,
         height = 0,
         hash = '',
@@ -330,12 +258,13 @@ class Picture {
         mime = '',
         size = 0.0,
         url = '',
-        previewUrl = '',
+        previewUrl = null,
         provider = '',
         createdAt = '',
         updatedAt = '',
         documentId = '',
         publishedAt = '';
+
   Picture({
     required this.id,
     required this.name,
@@ -375,72 +304,6 @@ class Picture {
       updatedAt: json['updatedAt'],
       documentId: json['documentId'],
       publishedAt: json['publishedAt'],
-    );
-  }
-}
-
-class Formats {
-  final Thumbnail thumbnail;
-
-  Formats({
-    required this.thumbnail,
-  });
-
-  factory Formats.fromJson(Map<String, dynamic> json) {
-    return Formats(
-      thumbnail: Thumbnail.fromJson(json['thumbnail']),
-    );
-  }
-}
-
-class Thumbnail {
-  final String name;
-  final String hash;
-  final String ext;
-  final String mime;
-  final double size;
-  final int width;
-  final int height;
-  final String url;
-
-  Thumbnail({
-    required this.name,
-    required this.hash,
-    required this.ext,
-    required this.mime,
-    required this.size,
-    required this.width,
-    required this.height,
-    required this.url,
-  });
-
-  factory Thumbnail.fromJson(Map<String, dynamic> json) {
-    return Thumbnail(
-      name: json['name'],
-      hash: json['hash'],
-      ext: json['ext'],
-      mime: json['mime'],
-      size: json['size'].toDouble(),
-      width: json['width'],
-      height: json['height'],
-      url: json['url'],
-    );
-  }
-}
-
-class Related {
-  final String id;
-  final String title;
-
-  Related({
-    required this.id,
-    required this.title,
-  });
-
-  factory Related.fromJson(Map<String, dynamic> json) {
-    return Related(
-      id: json['id'],
-      title: json['title'],
     );
   }
 }

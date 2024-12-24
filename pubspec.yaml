@@ -47,13 +47,13 @@ dependencies:
 #  mappable_maps_mapkit_lite: ^4.7.2-beta4
   yandex_maps_mapkit_lite: ^4.8.2-beta
   image_picker: ^1.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.11.0
   flutter_lints: ^2.0.0
 flutter_icons:
-#    android: "launcher_icon"
     ios: true
     image_path: "images/logo.png"
     min_sdk_android: 21

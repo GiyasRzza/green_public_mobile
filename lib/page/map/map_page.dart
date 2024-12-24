@@ -10,6 +10,7 @@ import 'package:yandex_maps_mapkit_lite/src/mapkit/animation.dart'
 as mapkit_animation;
 import '../../core/MapIconOnTap.dart';
 import '../../provider/PlacemarkProvider.dart';
+import '../main/widget/main_bottom_navigation_bar.dart';
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
 
@@ -204,41 +205,7 @@ class _MapPageState extends State<MapPage>{
           ),
         ],
       ),
-      bottomNavigationBar: NavigationBar(
-        surfaceTintColor: Colors.white,
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-          if (index == 0) {
-            Navigator.pop(context);
-          }
-        },
-        indicatorColor: Colors.green,
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: ImageIcon(AssetImage("images/home.png")),
-            icon: ImageIcon(AssetImage("images/home.png")),
-            label: "Home",
-          ),
-          NavigationDestination(
-            selectedIcon: ImageIcon(AssetImage("images/location.png")),
-            icon: ImageIcon(AssetImage("images/location.png")),
-            label: 'Location',
-          ),
-          NavigationDestination(
-            selectedIcon: ImageIcon(AssetImage("images/globus.png")),
-            icon: ImageIcon(AssetImage("images/globus.png")),
-            label: 'Map',
-          ),
-          NavigationDestination(
-            selectedIcon: ImageIcon(AssetImage("images/seller.png")),
-            icon: ImageIcon(AssetImage("images/seller.png")),
-            label: 'Seller',
-          ),
-        ],
-      ),
+      bottomNavigationBar:  MainBottomNavigationBar(currentPageIndex: 1,)
     );
   }
 

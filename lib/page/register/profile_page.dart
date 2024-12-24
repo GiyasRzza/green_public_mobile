@@ -243,7 +243,7 @@ class _ProfilePageState extends State<ProfilePage> {
               )
             ],
           ),
-          bottomNavigationBar: const MainBottomNavigationBar(),
+          bottomNavigationBar:  MainBottomNavigationBar(currentPageIndex: 4,),
         );
       },
     );

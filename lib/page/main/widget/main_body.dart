@@ -30,96 +30,83 @@ class _MainBodyState extends State<MainBody> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InkWell(
-                          onTap: () {
-                            TreeApis.getTrees();
-                          },
-                          child: const Text("Stores", style: TextStyle(color: Colors.black26, fontSize: 15),)
-
+                      Text(
+                        "Events",
+                        style: TextStyle(color: Colors.black26, fontSize: 15),
                       ),
-                      const Text("See all", style: TextStyle(color: Colors.black26, fontSize: 15),),
+                      Text(
+                        "See all",
+                        style: TextStyle(color: Colors.black26, fontSize: 15),
+                      ),
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 12.0),
                     child: SizedBox(
-                      height: 150,
-                      child: Consumer<StoreProvider>(
-                        builder: (BuildContext context, StoreProvider value, Widget? child) {
-                          return  FutureBuilder<List<StoreImage>>(
-                            future: value.getStoreImageListFuture,
-                            builder: (BuildContext context, AsyncSnapshot<List<StoreImage>> snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                return const Center(child: CircularProgressIndicator());
-                              } else if (snapshot.hasError) {
-                                return const Center(child: Text(""));
-                              }
-                              else if(snapshot.hasData){
-                                final storeImages = snapshot.data!;
-                                return   GridView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 1,
-                                    mainAxisSpacing: 20.0,
-                                  ),
-                                  itemCount: storeImages.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    final storeImage = storeImages[index];
-                                    return InkWell(
-                                      onTap: () {
-                                        Provider.of<StoreProvider>(context, listen: false).findStoreById(storeImage.id);
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const StoresDetailsPage(),));
-                                      },
-                                      child: Stack(
-                                        children: [
-                                          SizedBox(
-                                            height:100,
-                                            width: 350,
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(20.0),
-                                              child: Image(
-                                                image: storeImage.storeImage.image,
-                                                fit: BoxFit.fill,
-                                              ),
-                                            ),
-                                          ),
-                                          Positioned(
-                                            top: 40,
-                                            left: 0,
-                                            right: 0,
-                                            child: Text(
-                                              storeImage.storeName,
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15,
-                                                // Adjust the style as needed
-                                              ),
-                                              textAlign: TextAlign.center, // Center the text
-                                            ),
-                                          ),
-                                        ],
+                      height: 130,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 3,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            color: Colors.grey[200],
+                            child: const SizedBox(
+                              width: 200,
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Event Title",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                    );
-
-                                  },
-                                );;
-                              }
-                              else {
-                                return const Center(child: CircularProgressIndicator());
-                              }
-                            },
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      "Event description goes here. More details can be added.",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.black54,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.event, size: 14, color: Colors.black54),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          "03.04.2024 (10:00)",
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           );
                         },
-
                       ),
                     ),
                   ),
                 ],
               ),
             ),
+            // Advices Bölümü
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -127,17 +114,23 @@ class _MainBodyState extends State<MainBody> {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Advices", style: TextStyle(color: Colors.black26, fontSize: 15),),
-                      Text("See all", style: TextStyle(color: Colors.black26, fontSize: 15),)
+                      Text(
+                        "Advices",
+                        style: TextStyle(color: Colors.black26, fontSize: 15),
+                      ),
+                      Text(
+                        "See all",
+                        style: TextStyle(color: Colors.black26, fontSize: 15),
+                      ),
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 12.0),
                     child: SizedBox(
-                      height: 200,
+                      height: 250,
                       child: Consumer<TreeProvider>(
                         builder: (BuildContext context, TreeProvider value, Widget? child) {
-                          return   FutureBuilder<List<TreeImage>>(
+                          return FutureBuilder<List<TreeImage>>(
                             future: value.treeImageFutureList,
                             builder: (BuildContext context, AsyncSnapshot<List<TreeImage>> snapshot) {
                               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -148,10 +141,10 @@ class _MainBodyState extends State<MainBody> {
                                 List<TreeImage> treeImages = snapshot.data!;
                                 return GridView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  reverse: true,
                                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 1,
-                                    mainAxisSpacing: 10.0,
+                                    mainAxisSpacing: 15,
+                                    childAspectRatio: 0.75,
                                   ),
                                   itemCount: treeImages.length,
                                   itemBuilder: (BuildContext context, int index) {
@@ -159,57 +152,54 @@ class _MainBodyState extends State<MainBody> {
                                     return InkWell(
                                       onTap: () {
                                         Provider.of<TreeProvider>(context, listen: false).findTreeById(treeImage.id);
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const TreeDetailsPage(),));
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => const TreeDetailsPage()),
+                                        );
                                       },
-                                      child: SizedBox(
-                                        height: 250,
-                                        child: Card(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(12.0),
-                                          ),
-                                          color: Colors.white12.withOpacity(0.8),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  width: 200,
-                                                  height: 100,
-                                                  child: ClipRRect(
-                                                    borderRadius: BorderRadius.circular(20.0),
-                                                    child: Image(
-                                                      image: treeImage.treeImage.image,
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                  ),
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(12.0),
+                                        ),
+                                        color: Colors.grey[200],
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius: BorderRadius.circular(20.0),
+                                                child: Image(
+                                                  width: 280,
+                                                  height: 160,
+                                                  image: treeImage.treeImage.image,
+                                                  fit: BoxFit.cover,
                                                 ),
-
-                                                Align(
-                                                  alignment: Alignment.centerLeft,
-                                                  child: Text(
-                                                    treeImage.treeName,
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 17,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Tooltip(
-                                                    message: treeImage.description,
-                                                    child: Text(
-                                                      treeImage.description,
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 10.0,top: 2),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      treeImage.treeName,
                                                       style: const TextStyle(
-                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
                                                       ),
-                                                      softWrap: true,
-                                                      overflow: TextOverflow.visible,
                                                     ),
-                                                  ),
+                                                    Tooltip(
+                                                      message: treeImage.description,
+                                                      child: Text(
+                                                        treeImage.description,
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: const TextStyle(fontSize: 12),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
@@ -222,97 +212,7 @@ class _MainBodyState extends State<MainBody> {
                             },
                           );
                         },
-
                       ),
-                    ),
-                  ),
-
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Videos", style: TextStyle(color: Colors.black26, fontSize: 15),),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12.0),
-                    child: SizedBox(
-                      height: 200,
-                      child: Consumer<TreeProvider>(
-                        builder: (BuildContext context, TreeProvider value, Widget? child) {
-                          return      FutureBuilder<List<TreeVideo>>(
-                            future: value.treeVideoFutureList,
-                            builder: (BuildContext context, AsyncSnapshot<List<TreeVideo>> snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                return const Center(child: CircularProgressIndicator());
-                              } else if (snapshot.hasError) {
-                                return Center(child: Text('An error occurred: ${snapshot.error}'));
-                              } else if (snapshot.hasData && snapshot.data != null) {
-                                List<TreeVideo> treeVideos = snapshot.data!;
-                                return GridView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  reverse: false,
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 1,
-                                    mainAxisSpacing: 10.0,
-                                  ),
-                                  itemCount: treeVideos.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    TreeVideo treeVideo = treeVideos[index];
-                                    return InkWell(
-                                      onTap: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return VideoPlayerScreen(videoUrl: treeVideo.videoUrl);
-                                          },
-                                        );
-                                      },
-                                      child: Stack(
-                                        children: [
-                                          SizedBox(
-                                            height: double.infinity,
-                                            width: double.infinity,
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(30.0),
-                                              clipBehavior: Clip.hardEdge,
-                                              child: Image.network(
-                                                treeVideo.videoPreview,
-                                                gaplessPlayback: true,
-                                                fit: BoxFit.fill,
-                                              ),
-                                            ),
-                                          ),
-                                          const Positioned(
-                                            top: 10.0,
-                                            left: 10.0,
-                                            child: Icon(
-                                              Icons.play_circle_filled,
-                                              size: 30.0,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-
-
-                                    );
-                                  },
-                                );
-                              } else {
-                                return Container();
-                              }
-                            },
-                          );
-                        },
-                      ),
-
                     ),
                   ),
                 ],
@@ -320,6 +220,7 @@ class _MainBodyState extends State<MainBody> {
             ),
           ],
         ),
+
       ),
     );
   }

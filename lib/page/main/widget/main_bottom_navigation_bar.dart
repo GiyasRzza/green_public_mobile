@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:green_public_mobile/page/donation/donation_page.dart';
+import 'package:green_public_mobile/page/donation/gift_tree_page.dart';
+import 'package:green_public_mobile/page/main/main_page.dart';
 import 'package:green_public_mobile/page/register/sign_in_page.dart';
 import '../../map/map_page.dart';
 
 class MainBottomNavigationBar extends StatefulWidget {
-  const MainBottomNavigationBar({super.key});
+   int currentPageIndex;
+   MainBottomNavigationBar({super.key,  required this.currentPageIndex});
 
   @override
   State<MainBottomNavigationBar> createState() => _MainBottomNavigationBarState();
 }
 
 class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
-  int currentPageIndex = 0;
   bool isMenuOpen = false;
   void _showFloatingMenu() {
     setState(() {
@@ -34,7 +36,12 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
                       MaterialPageRoute(builder: (context) => const DonationPage())
                   ),),
                   const SizedBox(height: 10),
-                  _buildMenuItem(Icons.card_giftcard, "Give a tree as gift"),
+                  GestureDetector(child: _buildMenuItem(Icons.card_giftcard, "Give a tree as gift"),
+                    onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const GiftTreePage()));
+                  }, ),
                   CustomPaint(
                     painter: InvertedTrianglePainter(),
                     child: const SizedBox(
@@ -78,38 +85,38 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
   }
 
   @override
-  void initState() {
-    currentPageIndex = 0;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return NavigationBar(
       elevation: 20,
       surfaceTintColor: Colors.white,
       onDestinationSelected: (int index) {
-        setState(() {
-          currentPageIndex = index;
-        });
-        if (index == 1) {
-          Navigator.push(
+        if (widget.currentPageIndex != index) {
+          setState(() {
+            widget.currentPageIndex = index;
+          });
+          if (index == 0) {
+            Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const MapPage())
-          );
-        }
-        if (index == 4) {
-          Navigator.push(
+              MaterialPageRoute(builder: (context) => const MainPage()),
+            );
+          } else if (index == 1) {
+            Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const SignInPage())
-          );
+              MaterialPageRoute(builder: (context) => const MapPage()),
+            );
+          } else if (index == 4) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SignInPage()),
+            );
+          } else if (index == 2) {
+            _showFloatingMenu();
+          }
         }
-        if (index == 2) {
-          _showFloatingMenu();
-        }
+
       },
       indicatorColor: Colors.transparent,
-      selectedIndex: currentPageIndex,
+      selectedIndex:  widget.currentPageIndex,
       destinations: <Widget>[
         const NavigationDestination(
           selectedIcon: ImageIcon(AssetImage("images/HomeS.png")),

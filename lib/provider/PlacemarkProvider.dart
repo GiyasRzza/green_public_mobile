@@ -9,6 +9,7 @@ import '../apis/PlacemarkApis.dart';
 class PlacemarkProvider extends ChangeNotifier {
   List<Placemark> _placemarks = [];
   List<Placemark> _filteredPlacemarks = [];
+  Future<List<Placemark>> futurePlacemark = Future<List<Placemark>>.value([]);
   String _query = "";
   List<Placemark> get placemarks => _filteredPlacemarks;
   String kmInstance="";
@@ -20,7 +21,10 @@ class PlacemarkProvider extends ChangeNotifier {
 
   Future<void> getFromApiStores() async {
     List<Placemark> response = await PlacemarkApis.getCurrentWeather();
-    _placemarks = response;
+    _placemarks=response;
+    futurePlacemark.then((value) {
+      value.addAll(response);
+    },);
     notifyListeners();
   }
   Future<void> getCurrentLocation() async {

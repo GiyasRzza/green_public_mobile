@@ -235,59 +235,59 @@ class _TreeDetailsPageState extends State<TreeDetailsPage> {
                             ),
 
 
-                            Center(
-                              child: InkWell(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return VideoPlayerScreen(videoUrl: value.currentTree.video.url);
-                                    },
-                                  );
-                                },
-                                child: SizedBox(
-                                  width: 400,
-                                  height: 200,
-                                  child: Stack(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(20.0),
-                                        child: Image.network(
-                                          value.currentTree.video.previewUrl!,
-                                          gaplessPlayback: true,
-                                          fit: BoxFit.fill,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white.withOpacity(0.7),
-                                            shape: BoxShape.circle,
-                                          ),
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Image.asset("images/Play.png",height: 60,width: 60,),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        bottom: 10,
-                                        left: 10,
-                                        right: 10,
-                                        child: Text(
-                                          value.currentTree.video.name,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                          ),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Center(
+                            //   child: InkWell(
+                            //     onTap: () {
+                            //       showDialog(
+                            //         context: context,
+                            //         builder: (BuildContext context) {
+                            //           return VideoPlayerScreen(videoUrl: value.currentTree.video.url);
+                            //         },
+                            //       );
+                            //     },
+                            //     child: SizedBox(
+                            //       width: 400,
+                            //       height: 200,
+                            //       child: Stack(
+                            //         children: [
+                            //           // ClipRRect(
+                            //           //   borderRadius: BorderRadius.circular(20.0),
+                            //           //   child: Image.network(
+                            //           //     value.currentTree.video.previewUrl!,
+                            //           //     gaplessPlayback: true,
+                            //           //     fit: BoxFit.fill,
+                            //           //     width: double.infinity,
+                            //           //     height: double.infinity,
+                            //           //   ),
+                            //           // ),
+                            //           // Center(
+                            //           //   child: Container(
+                            //           //     decoration: BoxDecoration(
+                            //           //       color: Colors.white.withOpacity(0.7),
+                            //           //       shape: BoxShape.circle,
+                            //           //     ),
+                            //           //     padding: const EdgeInsets.all(8.0),
+                            //           //     child: Image.asset("images/Play.png",height: 60,width: 60,),
+                            //           //   ),
+                            //           // ),
+                            //           // Positioned(
+                            //           //   bottom: 10,
+                            //           //   left: 10,
+                            //           //   right: 10,
+                            //           //   child: Text(
+                            //           //     value.currentTree.video.name,
+                            //           //     style: const TextStyle(
+                            //           //       color: Colors.white,
+                            //           //       fontSize: 16,
+                            //           //     ),
+                            //           //     textAlign: TextAlign.left,
+                            //           //   ),
+                            //           // ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
 
                           ],
                         ),

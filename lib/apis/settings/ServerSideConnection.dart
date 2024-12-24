@@ -1,3 +1,3 @@
 class ServerSideConnection {
-  static String connectionUrl = "http://37.60.230.124/api";
+  static String connectionUrl = "http://89.250.64.225/api";
 }
