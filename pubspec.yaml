@@ -47,6 +47,8 @@ dependencies:
 #  mappable_maps_mapkit_lite: ^4.7.2-beta4
   yandex_maps_mapkit_lite: ^4.8.2-beta
   image_picker: ^1.1.2
+  google_maps_flutter: ^2.10.0
+  flutter_polyline_points: ^2.1.0
 
 dev_dependencies:
   flutter_test:

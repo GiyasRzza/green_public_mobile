@@ -22,6 +22,7 @@ class PlacemarkProvider extends ChangeNotifier {
   Future<void> getFromApiStores() async {
     List<Placemark> response = await PlacemarkApis.getCurrentWeather();
     _placemarks=response;
+    print("palcemarks}");
     futurePlacemark.then((value) {
       value.addAll(response);
     },);

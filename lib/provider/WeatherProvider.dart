@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 
 class WeatherProvider extends ChangeNotifier {
   WeatherScreen weatherScreen = WeatherScreen.empty();
-
+  var location;
   WeatherProvider() {
     getCurrentLocation();
   }
@@ -19,7 +19,9 @@ class WeatherProvider extends ChangeNotifier {
       permission = await Geolocator.requestPermission();
     }
     if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
-      var location = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+       location = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+       print(location.latitude);
+       print(location.longitude);
       getCurrentWeather(location.latitude.toString(), location.longitude.toString());
     } else {
       print("User denied permission to access device location.");

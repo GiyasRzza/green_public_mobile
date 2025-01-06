@@ -8,15 +8,11 @@ import 'package:green_public_mobile/provider/PlacemarkProvider.dart';
 import 'package:green_public_mobile/provider/StoreProvider.dart';
 import 'package:green_public_mobile/provider/TreeProvider.dart';
 import 'package:green_public_mobile/provider/WeatherProvider.dart';
-import 'package:yandex_maps_mapkit_lite/init.dart' as init;
 import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await init.initMapkit(
-      apiKey: 'pk_WSVzAEZzqvWXnmCfWXsWKkXiSMIEXAuapaUCBQSlbtQcJRCHYvvBTEqerdzkAlBZ'
-  );
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
