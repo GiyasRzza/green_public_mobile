@@ -170,13 +170,18 @@ class _MapPageState extends State<MapPage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildCompanyTile("Kapital Bank", "1.000 Tree"),
-                    _buildCompanyTile("Azersun", "1.000 Tree"),
-                    _buildCompanyTile("ABB", "1.000 Tree"),
-                  ],
+                InkWell(
+                  onTap: () {
+                    showPlantedByCompaniesDialog(context);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildCompanyTile("Kapital Bank", "1.000 Tree"),
+                      _buildCompanyTile("Azersun", "1.000 Tree"),
+                      _buildCompanyTile("ABB", "1.000 Tree"),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Row(
@@ -236,7 +241,7 @@ class _MapPageState extends State<MapPage> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      showChooseApplicationDialog(context);
                     },
                     child: const Text(
                       "Route",
@@ -244,6 +249,133 @@ class _MapPageState extends State<MapPage> {
                     ),
                   ),
                 ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void showPlantedByCompaniesDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Planted by companies",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(Icons.close),
+                    ),
+                  ],
+                ),
+                const Divider(),
+                ListTile(
+                  leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Image.asset(
+                      'images/kapital_bank.png',
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  title: const Text("Kapital Bank"),
+                  trailing: const Text("1.000 Tree"),
+                ),
+                ListTile(
+                  leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Image.asset(
+                      'images/azersun_logo.png',
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  title: const Text("Azersun"),
+                  trailing: const Text("1.000 Tree"),
+                ),
+                ListTile(
+                  leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Image.asset(
+                      'images/app_bak.png',
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  title: const Text("ABB"),
+                  trailing: const Text("1.000 Tree"),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+  void showChooseApplicationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Choose the application",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(Icons.close),
+                    ),
+                  ],
+                ),
+                const Divider(),
+                ListTile(
+                  leading: Image.asset('images/waze_logo.png', width: 40),
+                  title: const Text("Waze"),
+                ),
+                ListTile(
+                  leading:
+                  Image.asset('images/google_maps_logo.png', width: 40),
+                  title: const Text("Google Maps"),
+                ),
+                Row(
+                  children: [
+                    Checkbox(value: true, onChanged: (data) {
+
+                    }),
+                    const Text("Save your selection"),
+                  ],
+                )
               ],
             ),
           ),
