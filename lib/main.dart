@@ -94,14 +94,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.lightGreen[100]?.withOpacity(0.9999),
-      body: Stack(
-        children: [
-          Image.asset(
-            'images/oneTwoLoader.gif',
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-          ),
-        ],
+      body: Consumer<PlacemarkProvider>(
+        builder: (BuildContext context, PlacemarkProvider value, Widget? child) {
+          return  Stack(
+            children: [
+              Image.asset(
+                'images/oneTwoLoader.gif',
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+              ),
+            ],
+          );
+        },
       ),
     );
   }

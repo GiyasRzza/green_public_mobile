@@ -7,7 +7,7 @@ import 'package:yandex_maps_mapkit_lite/src/mapkit/geometry/geometry.dart'
 as mapkit_geometry_geometry;
 import '../apis/PlacemarkApis.dart';
 class PlacemarkProvider extends ChangeNotifier {
-  List<Placemark> _placemarks = [];
+  List<Placemark> firstPlaceMarks = [];
   List<Placemark> _filteredPlacemarks = [];
   Future<List<Placemark>> futurePlacemark = Future<List<Placemark>>.value([]);
   String _query = "";
@@ -21,11 +21,12 @@ class PlacemarkProvider extends ChangeNotifier {
 
   Future<void> getFromApiStores() async {
     List<Placemark> response = await PlacemarkApis.getCurrentWeather();
-    _placemarks=response;
-    print("palcemarks}");
+    firstPlaceMarks.addAll(response);
+
     futurePlacemark.then((value) {
       value.addAll(response);
     },);
+    print("privder placemark ${firstPlaceMarks.isEmpty}");
     notifyListeners();
   }
   Future<void> getCurrentLocation() async {
@@ -42,7 +43,7 @@ class PlacemarkProvider extends ChangeNotifier {
     if (query.isEmpty) {
       _filteredPlacemarks = [];
     } else {
-      _filteredPlacemarks = _placemarks.where((placemark) =>
+      _filteredPlacemarks = firstPlaceMarks.where((placemark) =>
           placemark.name.toLowerCase().contains(query.toLowerCase())).toList();
 
       if (location != null) {

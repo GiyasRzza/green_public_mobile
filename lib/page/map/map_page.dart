@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:green_public_mobile/dto/Placemark.dart';
 import 'package:green_public_mobile/provider/WeatherProvider.dart';
 import 'package:provider/provider.dart';
 import '../../provider/PlacemarkProvider.dart';
@@ -15,15 +16,15 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   final TextEditingController _searchController = TextEditingController();
   late GoogleMapController _mapController;
-  final Set<Marker> _markers = {};
+  late Set<Marker> _markers = {};
   final Set<Polyline> _polylines = {};
 
   @override
   void initState() {
     super.initState();
     _searchController.addListener(_onSearchChanged);
-  }
 
+  }
   @override
   void dispose() {
     _searchController.removeListener(_onSearchChanged);
@@ -47,17 +48,18 @@ class _MapPageState extends State<MapPage> {
     FocusScope.of(context).unfocus();
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
+  void _addMarker(String id, LatLng position, String publishedAt) async {
+    _mapController.animateCamera(
+      CameraUpdate.newLatLngZoom(position, 15),
+    );
   }
 
-  void _addMarker(String id, LatLng position, String publishedAt) async {
+  void _addMarkerAll(String id, LatLng position, String publishedAt) async {
     final customIcon = await BitmapDescriptor.asset(
-      const ImageConfiguration(size: Size(120, 120)),
+      const ImageConfiguration(size: Size(130, 120)),
       'images/pin.png',
     );
 
-    setState(() {
       _markers.add(
         Marker(
           markerId: MarkerId(id),
@@ -66,27 +68,25 @@ class _MapPageState extends State<MapPage> {
           onTap: () => _showPlacemarkBottomSheet(context, id, publishedAt, position),
         ),
       );
-    });
-
-    _mapController.animateCamera(
-      CameraUpdate.newLatLngZoom(position, 15),
-    );
   }
 
-  void _addPolyline(LatLng start, LatLng end) {
-    final String polylineId = 'route_${start.latitude}_${start.longitude}_${end.latitude}_${end.longitude}';
 
-    setState(() {
-      _polylines.add(
-        Polyline(
-          polylineId: PolylineId(polylineId),
-          points: [start, end],
-          color: Colors.blue,
-          width: 5,
-        ),
-      );
-    });
-  }
+
+
+  // void _addPolyline(LatLng start, LatLng end) {
+  //   final String polylineId = 'route_${start.latitude}_${start.longitude}_${end.latitude}_${end.longitude}';
+  //
+  //   setState(() {
+  //     _polylines.add(
+  //       Polyline(
+  //         polylineId: PolylineId(polylineId),
+  //         points: [start, end],
+  //         color: Colors.blue,
+  //         width: 5,
+  //       ),
+  //     );
+  //   });
+  // }
 
   void _showPlacemarkBottomSheet(
       BuildContext context, String name, String publishedAt, LatLng position) {
@@ -120,7 +120,7 @@ class _MapPageState extends State<MapPage> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.asset(
-                        'images/hesenPark.jpeg', // Park resmi
+                        'images/hesenPark.jpeg',
                         width: 60,
                         height: 60,
                         fit: BoxFit.cover,
@@ -413,17 +413,30 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       body: Stack(
         children: [
-          Consumer<WeatherProvider>(
-            builder: (BuildContext context, WeatherProvider value, Widget? child) {
+          Consumer2<WeatherProvider,PlacemarkProvider>(
+            builder: (BuildContext context, WeatherProvider value, PlacemarkProvider placemarkProvider,Widget? child) {
               return  GoogleMap(
-                onMapCreated: _onMapCreated,
+                onMapCreated: (controller) {
+                  _mapController = controller;
+                  for (var placemark in placemarkProvider.firstPlaceMarks) {
+                    setState(() {
+                      _addMarkerAll(placemark.name, LatLng(placemark.latitude, placemark.longitude),
+                          placemark.publishedAt);
+                    });
+                  }
+
+
+                },
                 initialCameraPosition:  CameraPosition(
                   target: LatLng(value.location.latitude, value.location.longitude),
-                  zoom: 13,
+                  zoom: 12,
                 ),
+
+
                 markers: _markers,
                 polylines: _polylines,
                 trafficEnabled: true,
+                myLocationEnabled: true,
               );
             },
 
