@@ -41,7 +41,7 @@ class PlacemarkProvider extends ChangeNotifier {
       location = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       notifyListeners();
     } catch (e) {
-      print("Konum alınamadı: $e");
+      print("errr: $e");
       location = null;
     }
   }
