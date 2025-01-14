@@ -469,7 +469,7 @@ class _MapPageState extends State<MapPage> {
                   Consumer<PlacemarkProvider>(
                     builder: (BuildContext context, PlacemarkProvider value, Widget? child) {
                       return SizedBox(
-                        height: 50,
+                        height: 51,
                         child: SearchField<String>(
                           suggestions: value.placemarks
                               .map((placemark) {
