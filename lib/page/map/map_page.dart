@@ -331,7 +331,7 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-
+//
   void showChooseApplicationDialog(BuildContext context) {
     showDialog(
       context: context,
