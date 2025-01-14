@@ -3,6 +3,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:green_public_mobile/dto/Placemark.dart';
 import 'package:green_public_mobile/provider/WeatherProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:searchfield/searchfield.dart';
+import '../../apis/PlacemarkApis.dart';
+import '../../dto/ApiResponse.dart';
 import '../../provider/PlacemarkProvider.dart';
 import '../main/widget/main_bottom_navigation_bar.dart';
 
@@ -16,8 +19,9 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   final TextEditingController _searchController = TextEditingController();
   late GoogleMapController _mapController;
-  late Set<Marker> _markers = {};
+  late final Set<Marker> _markers = {};
   final Set<Polyline> _polylines = {};
+  var isOpen =false;
 
   @override
   void initState() {
@@ -36,8 +40,10 @@ class _MapPageState extends State<MapPage> {
     final provider = Provider.of<PlacemarkProvider>(context, listen: false);
     if (_searchController.text.isNotEmpty) {
       provider.filterPlacemarks(_searchController.text);
+        isOpen=true;
     } else {
       provider.clearFilter();
+      isOpen=true;
     }
   }
 
@@ -54,9 +60,9 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-  void _addMarkerAll(String id, LatLng position, String publishedAt) async {
+  void _addMarkerAll(String name, LatLng position, String publishedAt,String id) async {
     final customIcon = await BitmapDescriptor.asset(
-      const ImageConfiguration(size: Size(130, 120)),
+      const ImageConfiguration(size: Size(120, 120)),
       'images/pin.png',
     );
 
@@ -65,31 +71,16 @@ class _MapPageState extends State<MapPage> {
           markerId: MarkerId(id),
           position: position,
           icon: customIcon,
-          onTap: () => _showPlacemarkBottomSheet(context, id, publishedAt, position),
+          onTap: () => _showPlacemarkBottomSheet(context, name, publishedAt, position,id),
         ),
       );
   }
 
-
-
-
-  // void _addPolyline(LatLng start, LatLng end) {
-  //   final String polylineId = 'route_${start.latitude}_${start.longitude}_${end.latitude}_${end.longitude}';
-  //
-  //   setState(() {
-  //     _polylines.add(
-  //       Polyline(
-  //         polylineId: PolylineId(polylineId),
-  //         points: [start, end],
-  //         color: Colors.blue,
-  //         width: 5,
-  //       ),
-  //     );
-  //   });
-  // }
-
-  void _showPlacemarkBottomSheet(
-      BuildContext context, String name, String publishedAt, LatLng position) {
+  Future<void> _showPlacemarkBottomSheet(
+      BuildContext context, String name, String publishedAt, LatLng position,String id) async {
+    ApiResponse data= await  PlacemarkApis.getPlacemarkDetails(id.toString());
+    List<UsersPermissionsUser> users= data.getUsersPermissionsUsers();
+    String currentUser=users[0].companyName;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -172,14 +163,13 @@ class _MapPageState extends State<MapPage> {
                 const SizedBox(height: 10),
                 InkWell(
                   onTap: () {
-                    showPlantedByCompaniesDialog(context);
+                    showPlantedByCompaniesDialog(context,currentUser);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildCompanyTile("Kapital Bank", "1.000 Tree"),
-                      _buildCompanyTile("Azersun", "1.000 Tree"),
-                      _buildCompanyTile("ABB", "1.000 Tree"),
+                      _buildCompanyTile(currentUser, "1.000 Tree"),
+                    
                     ],
                   ),
                 ),
@@ -257,7 +247,7 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-  void showPlantedByCompaniesDialog(BuildContext context) {
+  void showPlantedByCompaniesDialog(BuildContext context,String user) {
     showDialog(
       context: context,
       builder: (context) {
@@ -294,35 +284,35 @@ class _MapPageState extends State<MapPage> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  title: const Text("Kapital Bank"),
+                  title:  Text(user),
                   trailing: const Text("1.000 Tree"),
                 ),
-                ListTile(
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: Image.asset(
-                      'images/azersun_logo.png',
-                      width: 40,
-                      height: 40,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  title: const Text("Azersun"),
-                  trailing: const Text("1.000 Tree"),
-                ),
-                ListTile(
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: Image.asset(
-                      'images/app_bak.png',
-                      width: 40,
-                      height: 40,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  title: const Text("ABB"),
-                  trailing: const Text("1.000 Tree"),
-                ),
+                // ListTile(
+                //   leading: ClipRRect(
+                //     borderRadius: BorderRadius.circular(30),
+                //     child: Image.asset(
+                //       'images/azersun_logo.png',
+                //       width: 40,
+                //       height: 40,
+                //       fit: BoxFit.cover,
+                //     ),
+                //   ),
+                //   title: const Text("Azersun"),
+                //   trailing: const Text("1.000 Tree"),
+                // ),
+                // ListTile(
+                //   leading: ClipRRect(
+                //     borderRadius: BorderRadius.circular(30),
+                //     child: Image.asset(
+                //       'images/app_bak.png',
+                //       width: 40,
+                //       height: 40,
+                //       fit: BoxFit.cover,
+                //     ),
+                //   ),
+                //   title: const Text("ABB"),
+                //   trailing: const Text("1.000 Tree"),
+                // ),
               ],
             ),
           ),
@@ -331,7 +321,7 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-//
+
   void showChooseApplicationDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -386,16 +376,32 @@ class _MapPageState extends State<MapPage> {
 
   Widget _buildCompanyTile(String companyName, String treesPlanted) {
     return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            companyName,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+         Row(
+           children: [
+             ClipRRect(
+               borderRadius: BorderRadius.circular(30),
+               child: Image.asset(
+                 'images/kapital_bank.png',
+                 width: 40,
+                 height: 40,
+                 fit: BoxFit.fill,
+               ),
+             ),
+             Padding(
+               padding: const EdgeInsets.all(8.0),
+               child: Text(
+                 companyName,
+                 style: const TextStyle(
+                   fontSize: 14,
+                   fontWeight: FontWeight.bold,
+                 ),
+               ),
+             ),
+           ],
+         ),
           Text(
             treesPlanted,
             style: const TextStyle(
@@ -421,7 +427,7 @@ class _MapPageState extends State<MapPage> {
                   for (var placemark in placemarkProvider.firstPlaceMarks) {
                     setState(() {
                       _addMarkerAll(placemark.name, LatLng(placemark.latitude, placemark.longitude),
-                          placemark.publishedAt);
+                          placemark.publishedAt,placemark.id.toString());
                     });
                   }
 
@@ -460,18 +466,44 @@ class _MapPageState extends State<MapPage> {
               ),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
+                  Consumer<PlacemarkProvider>(
+                    builder: (BuildContext context, PlacemarkProvider value, Widget? child) {
+                      return SizedBox(
+                        height: 50,
+                        child: SearchField<String>(
+                          suggestions: value.placemarks
+                              .map((placemark) {
+                            String placemarkName = placemark.name;
+                            String searchText = _searchController.text.toLowerCase();
+                            int matchIndex = placemarkName.toLowerCase().indexOf(searchText);
+                            return SearchFieldListItem<String>(
+                              placemarkName,
+                              child: ListTile(
+                                leading: const Icon(Icons.location_on_outlined),
+                                title: RichText(
+                                  text: TextSpan(
+                                    text: placemarkName.substring(0, matchIndex),
+                                    style: const TextStyle(color: Colors.black, fontSize: 14.0),
+                                    children: [
+                                      TextSpan(
+                                        text: placemarkName.substring(matchIndex, matchIndex + searchText.length),
+                                        style: const TextStyle(color: Colors.blue, fontSize: 14.0),
+                                      ),
+                                      TextSpan(
+                                        text: placemarkName.substring(matchIndex + searchText.length),
+                                        style: const TextStyle(color: Colors.black, fontSize: 14.0),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                trailing: Text(placemark.publishedAt),
+                              ),
+                            );
+                          })
+                              .toList(),
                           controller: _searchController,
-                          decoration: InputDecoration(
+                          searchInputDecoration: SearchInputDecoration(
                             hintText: 'Search',
-                            hintStyle: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16,
-                            ),
-                            border: InputBorder.none,
                             prefixIcon: const Icon(Icons.search),
                             suffixIcon: _searchController.text.isNotEmpty
                                 ? IconButton(
@@ -479,44 +511,45 @@ class _MapPageState extends State<MapPage> {
                               onPressed: _clearSearch,
                             )
                                 : null,
-                            contentPadding:
-                            const EdgeInsets.symmetric(vertical: 15.0),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Consumer<PlacemarkProvider>(
-                    builder: (context, provider, child) {
-                      final placemarks = provider.placemarks;
-                      if (placemarks.isEmpty) {
-                        return const SizedBox();
-                      }
-                      return SizedBox(
-                        height: 150,
-                        child: ListView.builder(
-                          itemCount: placemarks.length,
-                          itemBuilder: (context, index) {
-                            final placemark = placemarks[index];
-                            return ListTile(
-                              leading: const Icon(Icons.location_on_outlined),
-                              title: provider.highlightedText(placemark.name),
-                              trailing: Text(placemark.publishedAt),
-                              onTap: () {
-                                final position = LatLng(
-                                    placemark.latitude, placemark.longitude);
-                                _addMarker(placemark.name, position,
-                                    placemark.publishedAt);
-                                _searchController.text = placemark.name;
-                                FocusScope.of(context).unfocus();
-                                provider.clearFilter();
-                              },
-                            );
+                          onSuggestionTap: (suggestion) {
+                            final placemark = value.placemarks.firstWhere(
+                                    (p) => p.name == suggestion.searchKey,
+                                orElse: () => Placemark(
+                                    id: 1,
+                                    name: "",
+                                    latitude: 1,
+                                    longitude: 1,
+                                    createdAt: "",
+                                    updatedAt: "",
+                                    publishedAt: "",
+                                    documentId: ""));
+                            if (placemark.name.isNotEmpty) {
+                              final position = LatLng(placemark.latitude, placemark.longitude);
+                              _addMarker(placemark.name, position, placemark.publishedAt);
+                              _searchController.text = placemark.name;
+                              FocusScope.of(context).unfocus();
+                              value.clearFilter();
+                            }
                           },
+                          itemHeight: 100.0,
+                          maxSuggestionsInViewPort: 6,
+                          suggestionStyle: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14.0,
+                          ),
+                          suggestionsDecoration: SuggestionDecoration(
+                            color: Colors.white,
+
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                         ),
                       );
                     },
                   ),
+
+
                 ],
               ),
             ),

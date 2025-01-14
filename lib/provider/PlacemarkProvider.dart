@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flutter;
 import 'package:geolocator/geolocator.dart';
+import 'package:green_public_mobile/dto/ApiResponse.dart';
 import 'package:green_public_mobile/dto/Placemark.dart';
 import 'package:yandex_maps_mapkit_lite/mapkit.dart';
 import 'package:yandex_maps_mapkit_lite/src/mapkit/geometry/geometry.dart'
@@ -10,6 +11,7 @@ class PlacemarkProvider extends ChangeNotifier {
   List<Placemark> firstPlaceMarks = [];
   List<Placemark> _filteredPlacemarks = [];
   Future<List<Placemark>> futurePlacemark = Future<List<Placemark>>.value([]);
+  List<ApiResponse> placeMarkDetails=[];
   String _query = "";
   List<Placemark> get placemarks => _filteredPlacemarks;
   String kmInstance="";
@@ -20,14 +22,19 @@ class PlacemarkProvider extends ChangeNotifier {
   }
 
   Future<void> getFromApiStores() async {
-    List<Placemark> response = await PlacemarkApis.getCurrentWeather();
+    List<Placemark> response = await PlacemarkApis.getPlacemarks();
     firstPlaceMarks.addAll(response);
 
     futurePlacemark.then((value) {
       value.addAll(response);
     },);
-    print("privder placemark ${firstPlaceMarks.isEmpty}");
     notifyListeners();
+  }
+
+  UsersPermissionsUser getCurrentDetails(String id){
+
+      UsersPermissionsUser user=UsersPermissionsUser(companyName: "empty");
+      return user;
   }
   Future<void> getCurrentLocation() async {
     try {
