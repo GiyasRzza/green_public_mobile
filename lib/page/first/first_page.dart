@@ -72,7 +72,7 @@ class _FState extends State<FirstPage> {
                                   ),
                                   const SizedBox(height: 16),
                                   const Text(
-                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum porta ipsum",
+                                    "Small actions, big impact. Make every day greener.",
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey,
