@@ -108,7 +108,7 @@ class _MainBodyState extends State<MainBody> {
                                               size: 20,
                                               color: Colors.white,
                                             ),
-                                            const Text("6.900",style: TextStyle(
+                                            const Text("15.0",style: TextStyle(
                                               color: Colors.white
                                             ),),
                                             const SizedBox(width: 8),

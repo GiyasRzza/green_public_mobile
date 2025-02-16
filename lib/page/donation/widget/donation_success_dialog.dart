@@ -14,7 +14,7 @@ class DonationSuccessDialog extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.check_circle, color: Colors.green, size: 64),
+          const Image(image: AssetImage("images/Preparation.png"),),
           const SizedBox(height: 16),
           const Text(
             'Your donation has been received.',
@@ -26,18 +26,21 @@ class DonationSuccessDialog extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MainPage()),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.black,
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.90,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MainPage()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+              ),
+              child: const Text('Close',style: TextStyle(color: Colors.white),),
             ),
-            child: const Text('Close',style: TextStyle(color: Colors.white),),
           ),
         ],
       ),
