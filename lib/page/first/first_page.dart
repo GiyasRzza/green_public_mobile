@@ -54,7 +54,7 @@ class _FState extends State<FirstPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Text(
-                                    "Title Goes",
+                                    "Welcome to",
                                     style: TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class _FState extends State<FirstPage> {
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
-                                    "Here!",
+                                    "Green Public!",
                                     style: TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold,
