@@ -19,18 +19,6 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
       child: MainAppBar()),
       body: const MainBody(),
       bottomNavigationBar: MainBottomNavigationBar(currentPageIndex: 0,),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const PaymentPage(
-                paymentUrl: 'https://checkout-preprod.cibpay.co/pay/91532085758869474',
-              ),
-            ),
-          );
-        },
-        child: const Icon(Icons.payment),
-      ),
     );
   }
 }

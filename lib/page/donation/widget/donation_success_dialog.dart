@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../payment_received_page.dart';
+import '../../main/main_page.dart';
 
 class DonationSuccessDialog extends StatelessWidget {
   const DonationSuccessDialog({super.key});
@@ -31,7 +31,7 @@ class DonationSuccessDialog extends StatelessWidget {
               Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const PaymentReceivedPage()),
+                MaterialPageRoute(builder: (context) => const MainPage()),
               );
             },
             style: ElevatedButton.styleFrom(

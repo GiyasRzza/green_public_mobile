@@ -13,12 +13,18 @@ class PlacemarkProvider extends ChangeNotifier {
   Future<List<Placemark>> futurePlacemark = Future<List<Placemark>>.value([]);
   List<ApiResponse> placeMarkDetails=[];
   String _query = "";
+  String selectedNgo="";
   List<Placemark> get placemarks => _filteredPlacemarks;
   String kmInstance="";
   var location;
   PlacemarkProvider()  {
     getCurrentLocation();
     getFromApiStores();
+  }
+
+  void setNgo(String ngo){
+    selectedNgo=ngo;
+    notifyListeners();
   }
 
   Future<void> getFromApiStores() async {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:green_public_mobile/page/donation/donation_page.dart';
+import 'package:green_public_mobile/provider/PlacemarkProvider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../apis/TreeApis.dart';
@@ -34,7 +36,7 @@ class _MainBodyState extends State<MainBody> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Events",
+                        "Donations",
                         style: TextStyle(color: Colors.black26, fontSize: 15),
                       ),
                       Text(
@@ -49,56 +51,111 @@ class _MainBodyState extends State<MainBody> {
                       height: 130,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 4,
-                        itemBuilder: (BuildContext context, int index) {
+                        itemCount: 2,
+                        itemBuilder: (BuildContext context, int data) {
                           return Card(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
+                              borderRadius: BorderRadius.circular(22.0),
                             ),
                             color: Colors.grey[200],
-                            child: const SizedBox(
+                            child: SizedBox(
                               width: 200,
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Event Title",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    child: Image.asset(
+                                      'images/homePageBg.png',
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: double.infinity,
                                     ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      "Event description goes here. More details can be added.",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.black54,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    SizedBox(height: 8),
-                                    Row(
+                                  ),
+                                  Positioned(
+                                    bottom: 10,
+                                    left: 10,
+                                    right: 10,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Icon(Icons.event, size: 14, color: Colors.black54),
-                                        SizedBox(width: 4),
-                                        Text(
-                                          "03.04.2024 (10:00)",
+                                        data == 0
+                                            ? const Text(
+                                          'Ministry of Ecology and Natural Resources',
                                           style: TextStyle(
-                                            fontSize: 10,
-                                            color: Colors.black54,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
                                           ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        )
+                                            : const Text(
+                                          'Central Botanical Garden',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const ImageIcon(
+                                              AssetImage("images/TreeEvergreen.png"),
+                                              size: 20,
+                                              color: Colors.white,
+                                            ),
+                                            const Text("6.900",style: TextStyle(
+                                              color: Colors.white
+                                            ),),
+                                            const SizedBox(width: 8),
+                                            ElevatedButton(
+                                              onPressed: () {
+
+                                                if(data==0){
+                                                  Provider.of<PlacemarkProvider>(context, listen: false).setNgo("Ministry of Ecology and Natural Resources");
+                                                }
+                                                if(data==1){
+                                                  Provider.of<PlacemarkProvider>(context, listen: false).setNgo("Central Botanical Garden");
+                                                }
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (context) => const DonationPage(
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.white,
+                                                shape: const RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.horizontal(
+                                                    left: Radius.circular(25),
+                                                    right: Radius.circular(25),
+                                                  ),
+                                                ),
+                                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                              ),
+                                              child: const Icon(
+                                                Icons.add,
+                                                size: 20,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           );
+
+
+
                         },
                       ),
                     ),

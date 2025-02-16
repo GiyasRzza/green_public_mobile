@@ -27,6 +27,9 @@ PODS:
     - FlutterMacOS
   - wakelock (0.0.1):
     - Flutter
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - yandex_maps_mapkit_lite (1.0.0):
     - Flutter
     - YandexMapsMobile (= 4.10.1-beta-lite-flutter)
@@ -42,6 +45,7 @@ DEPENDENCIES:
   - quick_actions_ios (from `.symlinks/plugins/quick_actions_ios/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/darwin`)
   - wakelock (from `.symlinks/plugins/wakelock/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
   - yandex_maps_mapkit_lite (from `.symlinks/plugins/yandex_maps_mapkit_lite/ios`)
 
 SPEC REPOS:
@@ -69,12 +73,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/video_player_avfoundation/darwin"
   wakelock:
     :path: ".symlinks/plugins/wakelock/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
   yandex_maps_mapkit_lite:
     :path: ".symlinks/plugins/yandex_maps_mapkit_lite/ios"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  geolocator_apple: 6cbaf322953988e009e5ecb481f07efece75c450
+  geolocator_apple: 9bcea1918ff7f0062d98345d238ae12718acfbc1
   Google-Maps-iOS-Utils: 66d6de12be1ce6d3742a54661e7a79cb317a9321
   google_maps_flutter_ios: e31555a04d1986ab130f2b9f24b6cdc861acc6d3
   GoogleMaps: 8939898920281c649150e0af74aa291c60f2e77d
@@ -84,6 +90,7 @@ SPEC CHECKSUMS:
   quick_actions_ios: 56f3cbaa71e94f212838d1f9fe354bd0734779bf
   video_player_avfoundation: 7c6c11d8470e1675df7397027218274b6d2360b3
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
+  webview_flutter_wkwebview: a4af96a051138e28e29f60101d094683b9f82188
   yandex_maps_mapkit_lite: 69da233dbe6a20c20d93186ca58f79089c56376f
   YandexMapsMobile: 4f2f84d214415ae84cf560aae994bd885bb1d82f
 
